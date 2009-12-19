@@ -15,9 +15,9 @@
  * the web, please send a note to the author and a copy will be provided
  * for you.
  *
- * @category   Utilities
+ * @category   HTML
  * @package    DForms
- * @subpackage Utils
+ * @subpackage Forms
  * @author     Greg Thornton <xdissent@gmail.com>
  * @copyright  2009 Greg Thornton
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
@@ -27,9 +27,9 @@
 /**
  * The DForms form base class.
  *
- * @category   Utilities
+ * @category   HTML
  * @package    DForms
- * @subpackage Utils
+ * @subpackage Forms
  * @author     Greg Thornton <xdissent@gmail.com>
  * @copyright  2009 Greg Thornton
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
