@@ -49,4 +49,16 @@ abstract class DForms_Widgets_Widget {
         }
         $this->attrs = $attrs;
     }
+    
+    abstract public function render($name, $value, $attrs=null);
+    
+    protected function buildAttrs($attrs=null, $extra_attrs=null) {
+        if (is_null($attrs)) {
+            $attrs = array();
+        }
+        if (!is_null($extra_attrs)) {
+            $attrs = array_merge($attrs, $extra_attrs);
+        }
+        return $attrs;
+    }
 }
