@@ -25,7 +25,7 @@
  */
 
 /**
- * The DForms form base class.
+ * The DForms field base class.
  *
  * @category   HTML
  * @package    DForms
@@ -45,12 +45,16 @@ abstract class DForms_Fields_Field
     
     protected $required;
     
-    protected $widget;
+    protected $widget = 'DForms_Widgets_TextInput';
     
     protected $error_messages;
     
     protected $show_hidden_initial;
-    
+
+    /**
+     * Instances that wish to override the widget with a widget *instance*
+     * should do so in their constructor *before* calling this constructor.
+     */
     public function __construct($label=null, $help_text=null, $initial=null,
         $required=true, $widget=null, $error_messages=null, 
         $show_hidden_initial=false
@@ -67,7 +71,7 @@ abstract class DForms_Fields_Field
          * Provide a default text input widget.
          */
         if (is_null($widget)) {
-            $widget = DForms_Widgets_TextInput();
+            $widget = $this->widget;
         }
         
         /**

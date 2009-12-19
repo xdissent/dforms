@@ -35,7 +35,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-abstract class DForms_Forms_Form
+abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
 {
     protected $data;
     
@@ -100,7 +100,7 @@ abstract class DForms_Forms_Form
         $this->label_suffix = $label_suffix;
         $this->auto_id = $auto_id;
         
-        $this->base_fields = self::getDeclaredFields($this);
+        $this->base_fields = self::getDeclaredFields();
         
         /**
          * Deep copy base fields for this instance.
@@ -115,7 +115,7 @@ abstract class DForms_Forms_Form
         if (array_key_exists($name, $this->fields)) {
             return $this->fields[$name];
         }
-        throw new Exception('Unknown field: ' . $name);
+        return parent::__get($name);
     }
     
     /**
@@ -132,26 +132,26 @@ abstract class DForms_Forms_Form
      * Combines all base fields including inherited fields, in reverse order.
      *
      * @return array
+     *
+     * @todo Cache the base fields.
      */
-    protected function getDeclaredFields($form_or_class) {
+    protected function getDeclaredFields($class=null) {
         /**
          * Determine the class name of the form.
          */
-        if (is_object($form_or_class)) {
-            $class = get_class($form_or_class);
-        } else {
-            $class = $form_or_class;
+        if (is_null($class)) {
+            $class = get_class($this);
         }
-                
+        
+        /**
+         * Get the fields declared on the form.
+         */
+        $fields = call_user_func(array($class, 'declareFields'));
+        
         /**
          * Determine the parent class of the form.
          */
         $parent = get_parent_class($class);
-        
-        /**
-         * Set up the fields array.
-         */
-        $fields = call_user_func(array($class, 'declareFields'));
 
         /**
          * Bail early if we're dealing with a direct subclass of the base form.
@@ -163,7 +163,7 @@ abstract class DForms_Forms_Form
         /**
          * Recurse and merge parent fields into this form's fields.
          */
-        $fields = array_merge(self::getDeclaredFields($parent), $fields);
+        $fields = array_merge($this->getDeclaredFields($parent), $fields);
         
         /**
          * Return the merged fields.
@@ -206,4 +206,26 @@ abstract class DForms_Forms_Form
      *     }
      */
     abstract public static function declareFields();
+    
+    /**
+     * Get all media for the form.
+     *
+     * Subclasses may override the ``defineMedia()`` static method to define
+     * form media in addition to the field media.
+     */
+    protected function getDefinedMedia($class=null)
+    {
+        if (!is_null($class)) {
+            return parent::getDefinedMedia($class);
+        }
+        
+        $media = parent::getDefinedMedia(get_class($this));
+        
+        /**
+         * Merge in field media.
+         */
+        $media['js'] = array_merge(array('asdf'), $media['js']);
+        
+        return $media;
+    }
 }
