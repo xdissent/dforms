@@ -35,7 +35,8 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-abstract class DForms_Widgets_Widget {
+abstract class DForms_Widgets_Widget extends DForms_Media_MediaDefiningClass
+{
 
     public $is_hidden = false;
     

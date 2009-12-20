@@ -103,12 +103,35 @@ abstract class DForms_Fields_Field
      * to use the default widget as specified in either the constructor or
      * field class declaration.
      *
+     * .. note:: This member is public to facilitate access to the widget's
+     *    methods and properties by things like forms. That's not so bad
+     *    because after the field is initialized, we're guaranteed to have
+     *    an actual widget instance.
+     *
      * @var mixed
      */
-    protected $widget = 'DForms_Widgets_TextInput';
+    public $widget = 'DForms_Widgets_TextInput';
     
     protected $hidden_widget = 'DForms_Widgets_HiddenInput';
     
+    /**
+     * The field error messages.
+     *
+     * Invalid fields will throw validation exceptions, which are usually 
+     * caught by forms. Often, a message should be displayed indicating 
+     * exactly what went wrong. The error messages member is an associative
+     * array consisting of error names (as keys) and messages (as values).
+     * Field classes may override the ``errorMessages`` static method to
+     * provide defaults. It's important to remember that field validation
+     * is almost always inherited rather than completely overridden. For
+     * this reason, subclasses will always inherit a parent class's 
+     * error messages, which are then updated, rather than replaced, by
+     * those defined in the child class's ``errorMessages`` method. Field
+     * instances may also provide additional messages, or override parent
+     * messages when instantiated.
+     *
+     * @var array
+     */
     protected $error_messages;
     
     protected $show_hidden_initial;
@@ -158,22 +181,25 @@ abstract class DForms_Fields_Field
          * Initialize label.
          */
         if (is_null($label)) {
-            $this->label = $label;
+            $label = $this->label;
         }
+        $this->label = $label;
 
         /**
          * Initialize help text.
          */
         if (is_null($help_text)) {
-            $this->help_text = $help_text;
+            $help_text = $this->help_text;
         }
+        $this->help_text = $help_text;
 
         /**
          * Initialize initial data.
          */
         if (is_null($initial)) {
-            $this->initial = $initial;
+            $initial = $this->initial;
         }
+        $this->initial = $initial;
         
         /**
          * Save our required flag.
@@ -205,13 +231,27 @@ abstract class DForms_Fields_Field
          */
         $this->widget = $widget;
         
+        /**
+         * Save the current creation counter for this instance.
+         */
         $this->creation_counter = self::$creation_counter;
+        
+        /**
+         * Update the creation counter to indicate a new field instance.
+         */
         self::$creation_counter += 1;
         
         /**
          * Handle default error messages.
          */
-        $this->error_messages = $error_messages;
+        $this->error_messages = $this->getErrorMessages();
+        
+        if (!is_null($error_messages)) {
+            $this->error_messages = array_merge(
+                $this->error_messages,
+                $error_messages
+            );
+        }
     }
     
     /**
@@ -240,11 +280,31 @@ abstract class DForms_Fields_Field
         return false;
     }
     
+    /**
+     * Validates the given value and returns a cleaned (valid) value.
+     *
+     * @param mixed $value The value to clean.
+     *
+     * @throws DForms_Exceptions_ValidationError
+     * @return mixed
+     */
     public function clean($value)
     {
+        /**
+         * Check to see if the field is required.
+         */
         if ($this->required and $this->isEmptyValue($value)) {
-            throw new Exception('Validation error');
+            /**
+             * Throw a validation error indicating the field value is missing.
+             */
+            throw new DForms_Exceptions_ValidationError(
+                $this->error_messages['required']
+            );
         }
+        
+        /**
+         * Return the cleaned value.
+         */
         return $value;
     }
     
@@ -262,5 +322,54 @@ abstract class DForms_Fields_Field
     public function widgetAttrs($widget)
     {
         return array();
+    }
+    
+    public function getErrorMessages($class=null) {
+        /**
+         * Determine the class name of the field.
+         */
+        if (is_null($class)) {
+            $class = get_class($this);
+        }
+        
+        /**
+         * Get the fields declared on the field.
+         */
+        $error_messages = call_user_func(array($class, 'errorMessages'));
+        
+        /**
+         * Determine the parent class of the field.
+         */
+        $parent = get_parent_class($class);
+
+        /**
+         * Bail early if we're dealing with the base field class.
+         */
+        if ($class == __CLASS__) {
+            return $error_messages;
+        }
+        
+        /**
+         * Recurse and merge parent messages into this form's error messages.
+         */
+        $error_messages = array_merge(
+            $this->getErrorMessages($parent),
+            $error_messages
+        );
+        
+        /**
+         * Return the merged error messages.
+         */
+        return $error_messages;
+    }
+    
+    /**
+     * Returns the error messages to use by default for the field.
+     */
+    public static function errorMessages() {
+        return array(
+            'required' => 'This field is required.',
+            'invalid' => 'Enter a valid value.'
+        );
     }
 }

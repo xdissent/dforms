@@ -61,8 +61,7 @@ abstract class DForms_Media_MediaDefiningClass
              * Return the form's media.
              */
             if (is_null($this->_media)) {
-                $media = $this->getDefinedMedia();
-                $this->_media = new DForms_Media_Media($media);
+                $this->_media = $this->getDefinedMedia();
             }
             return $this->_media;
         }
@@ -83,13 +82,18 @@ abstract class DForms_Media_MediaDefiningClass
         }
         
         /**
-         * Get the class's defined media.
+         * Get the class's defined media array.
          *
          * PHP5.3 equivalent::
          *
-         *     $media = static::media();
+         *     $media_array = static::media();
          */
-        $media = call_user_func(array($class, 'media'));
+        $media_array = call_user_func(array($class, 'media'));
+        
+        /**
+         * Create a media object from the media array.
+         */
+        $media = new DForms_Media_Media($media_array);
         
         /**
          * Determine the parent class of the form.
@@ -102,27 +106,17 @@ abstract class DForms_Media_MediaDefiningClass
         if ($parent == __CLASS__) {
             return $media;
         }
-        
+                
         /**
-         * Get parent class media media.
+         * Get parent class media.
          */
         $parent_media = $this->getDefinedMedia($parent);
-        
+                
         /**
-         * Merge parent media into this class's media.
-         *
+         * Combine the parent media with the sub class media.
          */
-        foreach ($parent_media as $key => $val) {
-            /**
-             * Merge or copy data to the media array.
-             */
-            if (array_key_exists($key, $media)) {
-                $media[$key] = array_merge_recursive($parent_media[$key], $media[$key]);
-            } else {
-                $media[$key] = $parent_media[$key];
-            }
-        }
-        
+        $media = $parent_media->mergeMedia($media);
+               
         /**
          * Return the media.
          */

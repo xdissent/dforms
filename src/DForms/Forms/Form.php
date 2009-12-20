@@ -100,7 +100,7 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
         $this->label_suffix = $label_suffix;
         $this->auto_id = $auto_id;
         
-        $this->base_fields = self::getDeclaredFields();
+        $this->base_fields = $this->getDeclaredFields();
         
         /**
          * Deep copy base fields for this instance.
@@ -115,6 +115,15 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
         if (array_key_exists($name, $this->fields)) {
             return $this->fields[$name];
         }
+        
+        if ($name == 'media') {
+            $media = parent::__get($name);
+            foreach ($this->fields as &$field) {
+                $media = $field->widget->media->mergeMedia($media);
+            }
+            return $media;
+        }
+        
         return parent::__get($name);
     }
     
@@ -206,26 +215,4 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
      *     }
      */
     abstract public static function fields();
-    
-    /**
-     * Get all media for the form.
-     *
-     * Subclasses may override the ``media()`` static method to define
-     * form media in addition to the field media.
-     */
-    protected function getDefinedMedia($class=null)
-    {
-        if (!is_null($class)) {
-            return parent::getDefinedMedia($class);
-        }
-        
-        $media = parent::getDefinedMedia(get_class($this));
-        
-        /**
-         * Merge in field media.
-         */
-        $media['js'] = array_merge(array('asdf'), $media['js']);
-        
-        return $media;
-    }
 }

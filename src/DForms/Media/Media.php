@@ -2,6 +2,9 @@
 
 /**
  * A media property with special methods for handling media.
+ *
+ * .. note:: Some of these method names are not camel case. They should be,
+ *    but it is *much* easier to keep all the names lowercase for now.
  */
 class DForms_Media_Media
 {
@@ -89,12 +92,36 @@ class DForms_Media_Media
                 if (array_key_exists($medium, $this->_css)) {
                     $this->_css[$medium] = array_merge(
                         $this->_css[$medium],
-                        $data
+                        $data[$medium]
                     );
                 } else {
                     $this->_css[$medium] = $paths;
                 }
             }
         }
+    }
+    
+    public function add($data) {
+        foreach ($this->_media_types as $type) {
+            if (array_key_exists($type, $data)) {
+                call_user_func(array($this, 'add_' . $type), $data[$type]);
+            }
+        }
+    }
+    
+    public function mergeMedia($media) {
+        $combined = new DForms_Media_Media();
+        foreach ($this->_media_types as $type) {
+            $type_name = '_' . $type;
+            call_user_func(
+                array($combined, 'add_' . $type),
+                $this->$type_name
+            );
+            call_user_func(
+                array($combined, 'add_' . $type),
+                $media->$type_name
+            );
+        }
+        return $combined;
     }
 }
