@@ -146,7 +146,7 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
         /**
          * Get the fields declared on the form.
          */
-        $fields = call_user_func(array($class, 'declareFields'));
+        $fields = call_user_func(array($class, 'fields'));
         
         /**
          * Determine the parent class of the form.
@@ -198,19 +198,19 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
      *
      * Example::
      * 
-     *     public static function declareFields() {
+     *     public static function fields() {
      *         return array(
      *             'name' => new DForms_Fields_CharField(255),
      *             'email' => new DForms_Fields_EmailField()
      *         );
      *     }
      */
-    abstract public static function declareFields();
+    abstract public static function fields();
     
     /**
      * Get all media for the form.
      *
-     * Subclasses may override the ``defineMedia()`` static method to define
+     * Subclasses may override the ``media()`` static method to define
      * form media in addition to the field media.
      */
     protected function getDefinedMedia($class=null)

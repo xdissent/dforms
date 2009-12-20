@@ -28,7 +28,7 @@
  * A base class that provides media statically, or optionally per instance.
  *
  * Subclasses define their media on a class basis by overriding the 
- * ``defineMedia`` static method. Instances may simply supply their own
+ * ``media`` static method. Instances may simply supply their own
  * ``media`` member variable, which will short circuit the dynamically
  * generated value (since ``__get()`` won't be called at all for ``media``).
  *
@@ -87,9 +87,9 @@ abstract class DForms_Media_MediaDefiningClass
          *
          * PHP5.3 equivalent::
          *
-         *     $media = static::defineMedia();
+         *     $media = static::media();
          */
-        $media = call_user_func(array($class, 'defineMedia'));
+        $media = call_user_func(array($class, 'media'));
         
         /**
          * Determine the parent class of the form.
@@ -141,7 +141,7 @@ abstract class DForms_Media_MediaDefiningClass
      * .. note:: This method must remain public until PHP5.3 since it must be
      *    accessed from ``call_user_func()``. It should eventually be protected.
      */
-    public static function defineMedia()
+    public static function media()
     {
         /**
          * An empty array is a default.

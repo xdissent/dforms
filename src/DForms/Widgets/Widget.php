@@ -41,18 +41,35 @@ abstract class DForms_Widgets_Widget {
     
     public $needs_multipart_form = false;
     
-    protected $attrs;
+    public $attrs;
     
-    public function __construct($attrs=null) {
+    /**
+     * The constructor.
+     *
+     * @return null
+     */
+    public function __construct($attrs=null)
+    {
         if (is_null($attrs)) {
             $attrs = array();
         }
         $this->attrs = $attrs;
     }
     
+    /**
+     * Renders the widget instance as a string.
+     *
+     * @return string
+     */
     abstract public function render($name, $value, $attrs=null);
     
-    protected function buildAttrs($attrs=null, $extra_attrs=null) {
+    /**
+     * Merges extra attributes with attributes and returns the combined array.
+     *
+     * @return array
+     */
+    protected function buildAttrs($attrs=null, $extra_attrs=null)
+    {
         if (is_null($attrs)) {
             $attrs = array();
         }
@@ -60,5 +77,40 @@ abstract class DForms_Widgets_Widget {
             $attrs = array_merge($attrs, $extra_attrs);
         }
         return $attrs;
+    }
+    
+    /**
+     * Returns the value of this widget determined by the data and name.
+     *
+     * @return mixed
+     */
+    public function valueFromData($data, $files, $name)
+    {
+        if (array_key_exists($name, $data)) {
+            return $data[$name];
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Determines whether or not the value of this widget has changed.
+     *
+     * @return boolean
+     */
+    public function has_changed($initial, $data) {
+        if (is_null($data)) {
+            $data = '';
+        }
+        
+        if (is_null($initial)) {
+            $initial = '';
+        }
+        
+        if ($initial != $data) {
+            return true;
+        }
+        
+        return false;
     }
 }
