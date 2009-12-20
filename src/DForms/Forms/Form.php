@@ -37,6 +37,7 @@
  */
 abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
 {
+    const NON_FIELD_ERRORS = '__all__';
     /**
      * Bound form data.
      *
@@ -69,6 +70,13 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
     protected $label_suffix;
     
     protected $auto_id;
+    
+    /**
+     * The error class to use for the form.
+     *
+     * @var string
+     */
+    protected $error_class = 'DForms_Errors_ErrorList';
     
     /**
      * A flag to indicate whether empty fields are allowed on the form.
@@ -105,7 +113,8 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
      *
      * .. note:: When looping through this field array, it's *required* that
      *    the field instance is passed by reference. Otherwise, the stored
-     *    fields will not be modified.
+     *    fields will not be modified. Then you *must* ``unset()`` the variable
+     *    that was receiving the field instance reference after the loop.
      *
      * @var array
      */
@@ -116,7 +125,10 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
      *
      * The error list will be ``null`` until the form is cleaned. It may be
      * accessed publicly from the ``errors`` dynamic member variable and
-     * the form will be cleaned if it hasn't already.
+     * the form will be cleaned if it hasn't already. It will almost certainly
+     * be an instance of the ``error_class`` member variable.
+     *
+     * @var object
      */
     private $_errors;
     
@@ -124,7 +136,7 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
      * Construct a form.
      */
     public function __construct($data=null, $initial=null, $files=null, 
-        $prefix=null, $label_suffix=':', $auto_id='id_%s',
+        $prefix=null, $label_suffix=':', $auto_id='id_%s', $error_class=null,
         $empty_permitted=false
     ) {
         /**
@@ -157,6 +169,14 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
             $files = array();
         }
         $this->files = array();
+        
+        /**
+         * Initialize error class.
+         */
+        if (is_null($error_class)) {
+            $error_class = $this->error_class;
+        }
+        $this->error_class = $error_class;
         
         /**
          * Initialize the rest.
@@ -221,6 +241,7 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
                  */
                 $media = $field->widget->media->mergeMedia($media);
             }
+            unset($field);
             
             /**
              * Return the combined media.
@@ -346,6 +367,7 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
                 return true;
             }
         }
+        unset($field);
 
         /**
          * Return false because no fields required multipart.
@@ -377,7 +399,24 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
     protected function htmlOutput($normal_row, $error_row, $row_ender, 
         $help_text_html, $errors_on_separate_row
     ) {
-        return print_r($this->errors, true);
+        $top_errors = $this->nonFieldErrors();
+        $output = array();
+        $hidden_fields = array();
+        $html_class_attr = '';
+        
+        foreach ($this->fields as $name => &$field) {
+            // process field.
+        }
+        unset($field);
+        
+        if ($top_errors->count()) {
+            array_unshift($output, sprintf($error_row, $top_errors));
+        }
+        
+        if (count($hidden_fields)) {
+            $str_hidden = implode($hidden_fields);
+        }
+        return implode("\n", $output);
     }
     
     public function asTable()
@@ -413,7 +452,16 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
         );
     }
     
-    public function fullClean() {
-        $this->_errors = array();
+    public function fullClean()
+    {
+        $this->_errors = new DForms_Errors_ErrorDict();
+    }
+    
+    protected function nonFieldErrors()
+    {
+        if ($this->errors->offsetExists(self::NON_FIELD_ERRORS)) {
+            return $this->errors->offsetGet(self::NON_FIELD_ERRORS);
+        }
+        return new $this->error_class;
     }
 }
