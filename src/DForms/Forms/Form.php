@@ -37,29 +37,95 @@
  */
 abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
 {
+    /**
+     * Bound form data.
+     *
+     * The data that represents the current state of the form.
+     *
+     * @var array
+     */
     protected $data;
     
+    /**
+     * Initial form data.
+     *
+     * This initial data array is used to fill in the initial values of an
+     * unbound form. It is *not* used as a set of defaults for missing fields
+     * in the forms data.
+     *
+     * @var array
+     */
     protected $initial;
     
+    /**
+     * File form data.
+     *
+     * @var array
+     */
     protected $files;
-    
-    protected $empty_permitted;
-    
+        
     protected $prefix;
     
     protected $label_suffix;
     
     protected $auto_id;
     
+    /**
+     * A flag to indicate whether empty fields are allowed on the form.
+     *
+     * @var boolean
+     */
+    protected $empty_permitted;
+    
+    /**
+     * A flag to indicate whether the form has bound data.
+     *
+     * @var boolean
+     */
     protected $is_bound = false;
     
+    /**
+     * Class level field array including inherited fields.
+     *
+     * It's important to store a copy of the fields that are defined by default
+     * for a field, including inherited fields. Instances can then differentiate
+     * between inherited fields and instance specific fields. Manipulating 
+     * instance fields is always done with the ``fields`` member variable
+     * so this base field array remains clean.
+     */
     protected $base_fields;
     
+    /**
+     * The fields for the form.
+     *
+     * This associative array of fields is populated upon instantiation to
+     * a list of inherited fields and those defined by the field class. These
+     * may be manipulated after that point to provide form instance specific
+     * field arrangments.
+     *
+     * .. note:: When looping through this field array, it's *required* that
+     *    the field instance is passed by reference. Otherwise, the stored
+     *    fields will not be modified.
+     *
+     * @var array
+     */
     public $fields;
     
+    /**
+     * The form's errors.
+     *
+     * The error list will be ``null`` until the form is cleaned. It may be
+     * accessed publicly from the ``errors`` dynamic member variable and
+     * the form will be cleaned if it hasn't already.
+     */
+    private $_errors;
+    
+    /**
+     * Construct a form.
+     */
     public function __construct($data=null, $initial=null, $files=null, 
-        $empty_permitted=false, $prefix=null, $label_suffix=':', 
-        $auto_id='id_%s'
+        $prefix=null, $label_suffix=':', $auto_id='id_%s',
+        $empty_permitted=false
     ) {
         /**
          * Determine whether this form is bound.
@@ -95,11 +161,14 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
         /**
          * Initialize the rest.
          */
-        $this->empty_permitted = $empty_permitted;
         $this->prefix = $prefix;
         $this->label_suffix = $label_suffix;
         $this->auto_id = $auto_id;
+        $this->empty_permitted = $empty_permitted;
         
+        /**
+         * Get the declared and inherited fields.
+         */
         $this->base_fields = $this->getDeclaredFields();
         
         /**
@@ -110,41 +179,120 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
     
     /**
      * Returns special properties representing the form's fields.
+     *
+     * For each field in the form instance, a dynamic member variable is made
+     * available based on the key of the field's name.
+     *
+     * The dynamic ``media`` member variable is combined with all media found
+     * in each field in the form, therefore representing all media required
+     * to correctly render the entire form and all fields.
+     *
+     * @param string $name The name of the dynamic member variable to retrieve.
+     *
+     * @return mixed
      */
-    public function __get($name) {
+    public function __get($name)
+    {
+        /**
+         * Check to see if a field with this name exists.
+         */
         if (array_key_exists($name, $this->fields)) {
+            /**
+             * Return the field instance.
+             */
             return $this->fields[$name];
         }
         
+        /**
+         * Update media member variable to include field media.
+         */
         if ($name == 'media') {
+            /**
+             * Get the (inherited) form media like normal.
+             */
             $media = parent::__get($name);
+            
+            /**
+             * Add each field's media.
+             */
             foreach ($this->fields as &$field) {
+                /**
+                 * Add the field widget's media to the list.
+                 */
                 $media = $field->widget->media->mergeMedia($media);
             }
+            
+            /**
+             * Return the combined media.
+             */
             return $media;
         }
         
+        /**
+         * Error handling.
+         */
+        if ($name == 'errors') {
+            /**
+             * Check to see if we've already been cleaned.
+             */
+            if (is_null($this->_errors)) {
+                /**
+                 * Run a full clean to generate errors.
+                 */
+                $this->fullClean();
+            }
+            
+            /**
+             * Return the populated errors.
+             */
+            return $this->_errors;
+        }
+        
+        /**
+         * Default handling.
+         */
         return parent::__get($name);
     }
     
     /**
      * Sets special properties representing the form's fields.
      */
-    public function __set($name, $value) {
+    public function __set($name, $value)
+    {
         if (array_key_exists($name, $this->fields)) {
             $this->fields[$name] = $value;
         }
         throw new Exception('Unknown field: ' . $name);
     }
     
+    public function __toString()
+    {
+        return $this->asTable();
+    }
+    
+    /**
+     * Declare the fields for this form class.
+     *
+     * This method should return an associative array of fields.
+     *
+     * Example::
+     * 
+     *     public static function fields() {
+     *         return array(
+     *             'name' => new DForms_Fields_CharField(),
+     *             'email' => new DForms_Fields_EmailField()
+     *         );
+     *     }
+     */
+    abstract public static function fields();
+    
     /**
      * Combines all base fields including inherited fields, in reverse order.
      *
      * @return array
-     *
-     * @todo Cache the base fields.
      */
-    protected function getDeclaredFields($class=null) {
+    protected function getDeclaredFields($class=null)
+    {
         /**
          * Determine the class name of the form.
          */
@@ -185,15 +333,20 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
      *
      * @return boolean
      */
-    public function isMultipart() {
+    public function isMultipart()
+    {
         /**
-         * Traverse each field and return true if a widget needs multipart.
+         * Check each field for mulitpart requirement.
          */
         foreach ($this->fields as &$field) {
+            /**
+             * Return true if the field's widget needs a multipart form.
+             */
             if ($field->widget->needs_multipart_form) {
                 return true;
             }
         }
+
         /**
          * Return false because no fields required multipart.
          */
@@ -201,18 +354,66 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
     }
     
     /**
-     * Declare the fields for this form class.
+     * Returns the form rendered in html.
      *
-     * This method should return an associative array of fields.
+     * Normal Row:
+     * + errors
+     * + label
+     * + field
+     * + help_text
+     * + html_class_attr
      *
-     * Example::
-     * 
-     *     public static function fields() {
-     *         return array(
-     *             'name' => new DForms_Fields_CharField(255),
-     *             'email' => new DForms_Fields_EmailField()
-     *         );
-     *     }
+     * Error Row:
+     * + error
+     *
+     * Row Ender:
+     * + (none)
+     *
+     * Help Text HTML:
+     * + help_text
+     *
+     * @return string
      */
-    abstract public static function fields();
+    protected function htmlOutput($normal_row, $error_row, $row_ender, 
+        $help_text_html, $errors_on_separate_row
+    ) {
+        return print_r($this->errors, true);
+    }
+    
+    public function asTable()
+    {
+        return $this->htmlOutput(
+            '<tr%5$s><th>%2$s</th><td>%1$s%3$s%4$s</td></tr>',
+            '<tr><td colspan="2">%s</td></tr>',
+            '</td></tr>',
+            '<br />%s',
+            false
+        );
+    }
+    
+    public function asUL()
+    {
+        return $this->htmlOutput(
+            '<li%5$s>%1$s%2$s %3$s%4$s</li>',
+            '<li>%s</li>',
+            '</li>',
+            ' %s',
+            false
+        );
+    }
+
+    public function asP()
+    {
+        return $this->htmlOutput(
+            '<p%5$s>%2$s %3$s%4$s</p>',
+            '%s',
+            '</p>',
+            ' %s',
+            true
+        );
+    }
+    
+    public function fullClean() {
+        $this->_errors = array();
+    }
 }
