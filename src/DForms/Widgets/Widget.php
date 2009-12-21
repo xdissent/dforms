@@ -114,4 +114,9 @@ abstract class DForms_Widgets_Widget extends DForms_Media_MediaDefiningClass
         
         return false;
     }
+    
+    public function idForLabel($id)
+    {
+        return $id;
+    }
 }

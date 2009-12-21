@@ -616,7 +616,73 @@ implements ArrayAccess, Iterator, Countable
         $html_class_attr = '';
         
         foreach ($this->fields as $name => &$field) {
-            // process field.
+            $bf = new DForms_Fields_BoundField($this, $field, $name);
+            
+            $bf_errors = new $this->error_class;
+            
+            foreach ($bf->errors as $error) {
+                $bf_errors[] = htmlentities($error);
+            }
+            
+            if ($bf->is_hidden) {
+                if (count($bf_errors)) {
+                    foreach($bf_errors as $error) {
+                        $top_errors[] = sprintf(
+                            '(Hidden field %s) %s',
+                            $name,
+                            $error
+                        );
+                    }
+                }
+                $hidden_fields[] = (string)$bf;
+                
+            } else {
+                $css_classes = $bf->cssClasses();
+                
+                if ($css_classes) {
+                    $html_class_attr = sprintf(' class="%s"', $css_classes);
+                }
+                
+                if ($errors_on_separate_row and count($bf_errors)) {
+                    $output[] = sprintf($error_row, $bf_errors);
+                }
+                
+                if ($bf->label) {
+                    $label = htmlentities($bf->label);
+                    
+                    if ($this->label_suffix) {
+                        if (!preg_match('/[:?.!]$/', $label)) {
+                            $label .= $this->label_suffix;
+                        }
+                    }
+                    
+                    $label = $bf->labelTag($label);
+                    
+                    /**
+                     * Ensure that label is a string.
+                     */
+                    if (!$label) {
+                        $label = '';
+                    }
+                } else {
+                    $label = '';
+                }
+                
+                if ($field->help_text) {
+                    $help_text = sprintf($help_text_html, $field->help_text);
+                } else {
+                    $help_text = '';
+                }
+                
+                $output[] = sprintf(
+                    $normal_row,
+                    $bf_errors,
+                    $label,
+                    $bf,
+                    $help_text,
+                    $html_class_attr
+                );
+            }
         }
         unset($field);
         
@@ -626,6 +692,36 @@ implements ArrayAccess, Iterator, Countable
         
         if (count($hidden_fields)) {
             $str_hidden = implode($hidden_fields);
+            if (count($output)) {
+                $last_row = $output[count($output) - 1];
+                
+                if (!preg_match(
+                    '/' . preg_quote($row_ender) . '$/',
+                    $last_row)
+                ) {
+                    $last_row = sprintf(
+                        $normal_row,
+                        '',
+                        '',
+                        '',
+                        '',
+                        $html_class_attr
+                    );
+                    
+                    $output[] = $last_row;
+                }
+                
+                $output[count($output) - 1] = substr(
+                    $last_row,
+                    0,
+                    strlen($last_row) - strlen($row_ender)
+                );
+                
+                $output[count($output) - 1] .= $str_hidden . $row_ender;
+                
+            } else {
+                $output[] = $str_hidden;
+            }
         }
 
         return implode("\n", $output);
@@ -971,11 +1067,11 @@ implements ArrayAccess, Iterator, Countable
             /**
              * Check a bound field instance of the field to see if it's hidden.
              */
-            if ($this->$name->is_hidden) {
+            if ($this[$name]->is_hidden) {
                 /**
                  * Add the hidden field to the array.
                  */
-                $hidden_fields[] = $this->$name;
+                $hidden_fields[] = $this[$name];
             }
         }
         
@@ -1009,11 +1105,11 @@ implements ArrayAccess, Iterator, Countable
             /**
              * Check a bound field instance of the field to see if it's hidden.
              */
-            if (!$this->$name->is_hidden) {
+            if (!$this[$name]->is_hidden) {
                 /**
                  * Add the hidden field to the array.
                  */
-                $visible_fields[] = $this->$name;
+                $visible_fields[] = $this[$name];
             }
         }
         

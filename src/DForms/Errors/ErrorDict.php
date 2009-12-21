@@ -9,21 +9,15 @@ class DForms_Errors_ErrorDict extends ArrayObject
     
     public function asUL()
     {
-        if (!$this->count()) {
+        if (!count($this)) {
             return '';
         }
         
         $output = array();
         $output[] = '<ul class="errorlist">';
         
-        $iterator = $this->getIterator();
-        
-        while($iterator->valid()) {
-            $output[] = sprintf(
-                '<li>%s%s</li>', 
-                $iterator->key(),
-                $iterator->current()
-            );
+        foreach ($this as $key => $val) {
+            $output[] = sprintf('<li>%s%s</li>', $key, $val);
         }
         
         $output[] = '</ul>';

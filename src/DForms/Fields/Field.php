@@ -89,9 +89,12 @@ abstract class DForms_Fields_Field
      * a value for each and every field. You may override this behaviour on a
      * field by field basis when you instantiate the fields for a form.
      *
+     * .. note:: This member variable must remain public since it is accessed
+     *           by bound field instances representing the field.
+     *
      * @var boolean
      */
-    protected $required;
+    public $required;
     
     /**
      * The field widget.
