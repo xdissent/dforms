@@ -41,26 +41,26 @@ class DForms_Fields_BoundField
      *
      * @var object
      */
-    protected $form;
+    public $form;
     
     /**
      * The form field the field represents.
      */
-    protected $field;
+    public $field;
     
     /**
      * The name of the field.
      */
-    protected $name;
+    public $name;
     
     /**
      * The name of the field used in the HTML.
      */
-    protected $html_name;
-    protected $html_initial_name;
-    protected $html_initial_id;
-    protected $help_text;
-    protected $label;
+    public $html_name;
+    public $html_initial_name;
+    public $html_initial_id;
+    public $help_text;
+    public $label;
 
     public function __construct($form, $field, $name)
     {

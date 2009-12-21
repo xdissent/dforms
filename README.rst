@@ -39,6 +39,13 @@ language constructs to begin with, so porting Python code to PHP can be
 a rocky endeavor. Every effort has been made to duplicate the exact behavour
 of Django forms, with the following concessions:
 
+* PHP lacks keyword arguments, so to change the value of a parameter near the
+  end of the argument list requires a much longer constructor. I'm open for
+  suggestions about how to implement keyword arguments in PHP, but every
+  solution I've seen so far has required a *lot* of boilerplate, which defeats
+  the purpose. In most cases, argument lists have been rearranged to allow
+  short method calls for the most common scenarios.
+
 * Method names have been converted to camel case with very few exceptions. 
   Eventually *all* method names should be camel case, but for now it is much
   easier to use the Django names for "special" methods like 
@@ -71,6 +78,73 @@ by name will automatically include the source file and any dependencies for the
 requested class. From that point on, the class is available in your code, and
 any classes that haven't been used are not even loaded to begin with. The end
 result is clean, intuitive and *efficient* code.
+
+Quick Example
+-------------
+
+Here's a quick introductory snippet::
+
+    <?php
+    
+    /**
+     * Import DForm.
+     */
+    //require_once 'DForms/import.php';
+    
+    class DemoForm extends DForms_Forms_Form
+    {
+        public static function fields() {
+            return array(
+                'first_name' => new DForms_Fields_CharField(
+                    'First Name',
+                    'Enter your first name.'
+                ),
+                'last_name' => new DForms_Fields_CharField(
+                    'Last Name',
+                    'Enter your last name.'
+                )
+            );
+        }
+        
+        public static function media() {
+            return array(
+                'js' => array(
+                    'demo.js'
+                ),
+                'css' => array(
+                    array(
+                        'screen' => 'demo.css',
+                        'print' => 'print.css'
+                    )
+                )
+            );
+        }
+    }
+    
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $form = new DemoForm($_POST);
+    } else {
+        $form = new DemoForm();
+    }
+    
+    ?>
+    <html>
+        <head>
+        <?= $form->media ?>
+        </head>
+        <body>
+            <form action="" method="POST">
+                <table>
+                    <?= $form->html() ?>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </body>
+    </html>
 
 
 Coding Style
