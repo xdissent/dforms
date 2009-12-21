@@ -38,7 +38,7 @@ class DForms_Fields_CharField extends DForms_Fields_Field
         $value_length = strlen($value_length);
         
         if (!is_null($this->max_length) && $value_length > $this->max_length) {
-            throw new DForms_Exceptions_ValidationError(
+            throw new DForms_Errors_ValidationError(
                 sprintf(
                     $this->error_messages['max_length'],
                     $this->max_length, 
@@ -48,7 +48,7 @@ class DForms_Fields_CharField extends DForms_Fields_Field
         }
         
         if (!is_null($this->min_length) && $value_length < $this->min_length) {
-            throw new DForms_Exceptions_ValidationError(
+            throw new DForms_Errors_ValidationError(
                 sprintf(
                     $this->error_messages['min_length'],
                     $this->min_length, 

@@ -1,4 +1,4 @@
-    <?php
+<?php
 /**
  * Field
  *
@@ -61,7 +61,7 @@ abstract class DForms_Fields_Field
      *
      * @var string
      */
-    protected $help_text;
+    public $help_text;
     
     /**
      * The field initial value.
@@ -74,7 +74,7 @@ abstract class DForms_Fields_Field
      *
      * @var mixed
      */
-    protected $initial;
+    public $initial;
     
     /**
      * A flag indicating that a field is required in a form.
@@ -112,7 +112,15 @@ abstract class DForms_Fields_Field
      */
     public $widget = 'DForms_Widgets_TextInput';
     
-    protected $hidden_widget = 'DForms_Widgets_HiddenInput';
+    /**
+     * The field's hidden widget class name.
+     *
+     * A form may provide a hidden widget along side each field to store the
+     * initial value. This class name is used to instantiate that widget.
+     *
+     * @var string
+     */
+    public $hidden_widget = 'DForms_Widgets_HiddenInput';
     
     /**
      * The field error messages.
@@ -134,7 +142,17 @@ abstract class DForms_Fields_Field
      */
     protected $error_messages;
     
-    protected $show_hidden_initial;
+    /**
+     * A flag indicating that we should show a hidden initial value widget.
+     *
+     * When a form is rendered, a field with this flag set to ``true`` will
+     * have a hidden widget rendered along with the field's normal widget
+     * containing the initial value of the field. Useful for complex fields
+     * that require checking against the initial value.
+     *
+     * @var boolean
+     */
+    public $show_hidden_initial;
     
     /**
      * The creation counter for all field instances.
@@ -163,15 +181,25 @@ abstract class DForms_Fields_Field
      * Instances that wish to override the widget with a widget *instance*
      * should do so in their constructor *before* calling this constructor.
      *
-     * @param mixed   $label     The label to display for the field. Pass null
-     *                           for the class default.
-     * @param mixed   $help_text The help text to display for the field. Pass 
-     *                           null for the class default.
-     * @param mixed   $initial   The initial value to use for the field. Pass
-     *                           null for the class default.
-     * @param boolean $required  A flag indicating whether a field is required.
-     * @param mixed   $widget    The class name or instance of the widget for
-     *                           the field.
+     * @param mixed   $label               The label to display for the field. 
+     *                                     Pass null for the class default.
+     * @param mixed   $help_text           The help text to display for the  
+     *                                     field. Pass null for the class
+     *                                     default.
+     * @param mixed   $initial             The initial value to use for the 
+     *                                     field. Pass null for the class 
+     *                                     default.
+     * @param boolean $required            A flag indicating whether a field is 
+     *                                     required.
+     * @param mixed   $widget              The class name or instance of the 
+     *                                     widget for the field.
+     * @param array   $error_messages      An array of error messages for the 
+     *                                     field.
+     * @param boolean $show_hidden_initial A flag indicating whether a field
+     *                                     should be rendered with a hidden
+     *                                     widget containing the initial value.
+     *
+     * @return null
      */
     public function __construct($label=null, $help_text=null, $initial=null,
         $required=true, $widget=null, $error_messages=null, 
@@ -242,11 +270,17 @@ abstract class DForms_Fields_Field
         self::$creation_counter += 1;
         
         /**
-         * Handle default error messages.
+         * Get the inherited error messages for this field.
          */
         $this->error_messages = $this->getErrorMessages();
         
+        /**
+         * Check for extra error messages for this instance.
+         */
         if (!is_null($error_messages)) {
+            /**
+             * Merge in the extra error messages.
+             */
             $this->error_messages = array_merge(
                 $this->error_messages,
                 $error_messages
@@ -265,7 +299,7 @@ abstract class DForms_Fields_Field
      *
      * @return boolean
      */
-    public function isEmptyValue($value)
+    protected function isEmptyValue($value)
     {
         /**
          * Check for a known empty value.
@@ -285,7 +319,7 @@ abstract class DForms_Fields_Field
      *
      * @param mixed $value The value to clean.
      *
-     * @throws DForms_Exceptions_ValidationError
+     * @throws DForms_Errors_ValidationError
      * @return mixed
      */
     public function clean($value)
@@ -297,7 +331,7 @@ abstract class DForms_Fields_Field
             /**
              * Throw a validation error indicating the field value is missing.
              */
-            throw new DForms_Exceptions_ValidationError(
+            throw new DForms_Errors_ValidationError(
                 $this->error_messages['required']
             );
         }
@@ -324,6 +358,17 @@ abstract class DForms_Fields_Field
         return array();
     }
     
+    /**
+     * Returns the combined inherited error messages for the field.
+     *
+     * .. note:: This method must remain public since it is accessed by 
+     *    ``call_user_func()``. It should be protected.
+     *
+     * @param string $class The class name to retrieve error message from. Pass
+     *                      ``null`` to get all inherited errors for the form.
+     *
+     * @return array
+     */
     public function getErrorMessages($class=null) {
         /**
          * Determine the class name of the field.
@@ -365,6 +410,11 @@ abstract class DForms_Fields_Field
     
     /**
      * Returns the error messages to use by default for the field.
+     *
+     * Field classes may override this static method to provide extra error
+     * messages specific to the field type.
+     *
+     * @return array
      */
     public static function errorMessages() {
         return array(

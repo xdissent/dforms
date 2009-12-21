@@ -30,7 +30,7 @@ class DForms_Media_Media
     }
     
     /**
-     * @todo Make this raise an exception if invalid type is supplied.
+     * @todo Make this throw an exception if invalid type is supplied.
      */
     public function __get($name) {
         if (in_array($name, $this->_media_types)) {
@@ -48,7 +48,10 @@ class DForms_Media_Media
     public function render() {
         $lines = array();
         foreach ($this->_media_types as $type) {
-            $lines[] = call_user_func(array($this, 'render_' . $type));
+            $line = call_user_func(array($this, 'render_' . $type));
+            if ($line != '') {
+                $lines[] = $line;
+            }
         }
         return implode("\n", $lines);
     }

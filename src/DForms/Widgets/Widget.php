@@ -99,7 +99,7 @@ abstract class DForms_Widgets_Widget extends DForms_Media_MediaDefiningClass
      *
      * @return boolean
      */
-    public function has_changed($initial, $data) {
+    public function hasChanged($initial, $data) {
         if (is_null($data)) {
             $data = '';
         }
