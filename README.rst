@@ -62,9 +62,8 @@ of Django forms, with the following concessions:
 * There exists no way to define class level member variables with complex types
   like in Python. In cases where this method is used in Django forms (i.e. when
   defining fields), a public static method is provided in DForms to accomplish
-  the same task. Simply override the method in the child class providing to
-  add new class data. See below for an example of defining fields in this
-  manner.
+  the same task. Simply override the method in the child class to define new 
+  class data. See below for an example of defining fields in this manner.
   
 
 Importing Into Your Project
