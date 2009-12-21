@@ -188,10 +188,10 @@ The Future
 There are a few things that still need to be completed:
 
 * *File upload handling* - Since Django's file manipulation classes are obviously
-  going to be very different than PHP's, I haven't gotten around to implementing
+  going to be very different from PHP's, I haven't gotten around to implementing
   file fields in DForms yet. It should be fairly simple and is first priority.
   
-* *Debugger* - PHP errors and exceptions are a *real* pain to handle. On 
+* *Debugger* - PHP errors and exceptions are a *real* pain to handle. One 
   unfinished DForms feature is a built in debugger that kicks you to a Django
   style error page when something goes awry. Although off by default, this
   could be overkill.
