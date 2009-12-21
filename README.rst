@@ -79,6 +79,7 @@ requested class. From that point on, the class is available in your code, and
 any classes that haven't been used are not even loaded to begin with. The end
 result is clean, intuitive and *efficient* code.
 
+
 Quick Example
 -------------
 
@@ -89,10 +90,16 @@ Here's a quick introductory snippet::
     /**
      * Import DForm.
      */
-    //require_once 'DForms/import.php';
+    require_once 'DForms/import.php';
     
+    /**
+     * Define a simple form.
+     */
     class DemoForm extends DForms_Forms_Form
     {
+        /**
+         * Declare some fields.
+         */
         public static function fields() {
             return array(
                 'first_name' => new DForms_Fields_CharField(
@@ -106,6 +113,9 @@ Here's a quick introductory snippet::
             );
         }
         
+        /**
+         * Declare some form media.
+         */
         public static function media() {
             return array(
                 'js' => array(
@@ -122,8 +132,15 @@ Here's a quick introductory snippet::
     }
     
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        /**
+         * Bind the form to the POST data.
+         */
         $form = new DemoForm($_POST);
+        
     } else {
+        /**
+         * Instantiate an unbound form.
+         */
         $form = new DemoForm();
     }
     
