@@ -64,7 +64,12 @@ of Django forms, with the following concessions:
   defining fields), a public static method is provided in DForms to accomplish
   the same task. Simply override the method in the child class to define new 
   class data. See below for an example of defining fields in this manner.
-  
+
+* DForms defines a ``TextField`` class where Django does not. Long constructors
+  make overriding widgets just a tad annoying if you have to do it many times,
+  so a ``TextField`` class is a ``CharField`` with a ``Textarea`` widget added
+  for convenience.
+
 
 Importing Into Your Project
 ---------------------------
@@ -175,6 +180,45 @@ Here's a quick introductory snippet::
             </form>
         </body>
     </html>
+
+
+The Future
+----------
+
+There are a few things that still need to be completed:
+
+* *File upload handling* - Since Django's file manipulation classes are obviously
+  going to be very different than PHP's, I haven't gotten around to implementing
+  file fields in DForms yet. It should be fairly simple and is first priority.
+  
+* *Debugger* - PHP errors and exceptions are a *real* pain to handle. On 
+  unfinished DForms feature is a built in debugger that kicks you to a Django
+  style error page when something goes awry. Although off by default, this
+  could be overkill.
+
+* *Tests* - I've got a few `SimpleTest`_ test suites for regression testing, but
+  they have not been included in the DForms package. This is because I'm 
+  reviewing PHP testing options. Any suggestions?
+
+* *More field types* - Right now we're lacking a few field types that Django 
+  provides, but they should all be available soon.
+  
+* *Formsets* - `Django formsets`_ should work as expected when the factory code
+  is ported into DForms, but it hasn't *yet*.
+
+* *Demos / Examples* - For the uninitiated, DForms might evoke a "eh, big deal"
+  reaction. It would be nice to have some examples showing why Django style
+  forms are so great.
+
+* *Documentation site* - DForms is *always* documented inline with extreme
+  verbosity using `phpDoc`_ and the rendered docs should be uploaded somewhere.
+  
+.. _SimpleTest: http://www.simpletest.org
+.. _Django formsets: http://docs.djangoproject.com/en/dev/topics/forms/formsets/
+.. _phpDoc: http://www.phpdoc.org
+
+I could always use help with the above tasks, so please get in contact if you
+have hacking time to spare!
 
 
 Coding Style

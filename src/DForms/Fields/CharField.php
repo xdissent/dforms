@@ -64,4 +64,16 @@ class DForms_Fields_CharField extends DForms_Fields_Field
             'min_length' => 'Ensure this value has at least %1$d characters (it has %2$d).',
         );
     }
+    
+    public function widgetAttrs($widget) {
+
+        if (!is_null($this->max_length)
+            && ($widget instanceof DForms_Widgets_TextInput
+                || $widget instanceof DForms_Widgets_PasswordInput)
+        ) {
+            return array('maxlength' => (string)$this->max_length);
+        }
+        
+        return array();
+    }
 }
