@@ -137,6 +137,13 @@ Here's a quick introductory snippet::
          */
         $form = new DemoForm($_POST);
         
+        if ($form->isValid()) {
+            /**
+             * Do something with the form data.
+             */
+            do_something($form->cleaned_data);
+        }
+        
     } else {
         /**
          * Instantiate an unbound form.
