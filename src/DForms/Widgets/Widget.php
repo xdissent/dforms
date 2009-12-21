@@ -74,9 +74,13 @@ abstract class DForms_Widgets_Widget extends DForms_Media_MediaDefiningClass
         if (is_null($attrs)) {
             $attrs = array();
         }
+        
+        $attrs = array_merge($this->attrs, $attrs);
+        
         if (!is_null($extra_attrs)) {
             $attrs = array_merge($attrs, $extra_attrs);
         }
+        
         return $attrs;
     }
     
