@@ -2,8 +2,7 @@
 /**
  * Widget
  *
- * This file defines an auto loader class that handles the loading of DForms 
- * classes in PHP scripts.
+ * This file defines a form field widget base class.
  *
  * PHP version 5
  *

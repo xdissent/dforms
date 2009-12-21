@@ -2,8 +2,7 @@
 /**
  * Debugger
  *
- * This file defines an auto loader class that handles the loading of DForms 
- * classes in PHP scripts.
+ * This file defines a debugger. Don't use this yet.
  *
  * PHP version 5
  *
