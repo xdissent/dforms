@@ -46,9 +46,12 @@ abstract class DForms_Fields_Field
      * which overrides this class-wide default. Pass ``null`` to invoke the
      * default value.
      *
+     * .. note:: This member variable must remain public since it is accessed
+     *           by bound field instances representing the field.
+     *
      * @var string
      */
-    protected $label;
+    public $label;
     
     /**
      * The field help text.

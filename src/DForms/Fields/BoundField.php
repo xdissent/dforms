@@ -68,11 +68,11 @@ class DForms_Fields_BoundField
         $this->field = $field;
         $this->name = $name;
         
-        $this->html_name = $form->add_prefix($name);
+        $this->html_name = $form->addPrefix($name);
         
-        $this->html_initial_name = $form->add_initial_prefix($name);
+        $this->html_initial_name = $form->addInitialPrefix($name);
         
-        $this->html_initial_id = $form->add_initial_prefix($form->auto_id);
+        $this->html_initial_id = $form->addInitialPrefix($form->auto_id);
         
         if (is_null($field->label)) {
             $this->label = $name;
@@ -107,7 +107,7 @@ class DForms_Fields_BoundField
          */
         if ($name == 'errors') {
             if ($this->form->errors->offsetExists($this->name)) {
-                return $this->form->errors->offsetGet($this->name);
+                return $this->form->errors[$this->name];
             }
             return new $this->form->error_class;
         }

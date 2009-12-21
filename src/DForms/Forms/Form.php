@@ -36,6 +36,7 @@
  * @link       http://xdissent.github.com/dforms/
  */
 abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
+implements ArrayAccess, Iterator, Countable
 {
     /**
      * A key to use for errors in the error list that do not belong ot a field.
@@ -261,12 +262,7 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
     }
     
     /**
-     * Returns special properties representing the form's fields.
-     *
-     * For each field in the form instance, a dynamic member variable is made
-     * available based on the key of the field's name. The field corresponding
-     * to that name will be used to create a bound field instance, which is
-     * returned.
+     * Returns special properties for the form.
      *
      * The dynamic ``media`` member variable is combined with all media found
      * in each field in the form, therefore representing all media required
@@ -278,20 +274,6 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
      */
     public function __get($name)
     {
-        /**
-         * Check to see if a field with this name exists.
-         */
-        if (array_key_exists($name, $this->fields)) {
-            /**
-             * Return the field as a bound field instance.
-             */
-            return new DForms_Fields_BoundField(
-                $this, 
-                $this->fields[$name],
-                $name
-            );
-        }
-        
         /**
          * Update media member variable to include field media.
          */
@@ -349,6 +331,151 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
          * Default handling.
          */
         return parent::__get($name);
+    }
+    
+    /**
+     * Returns true if the field specified exists in the form.
+     *
+     * @param string $offset The name of the requested field.
+     *
+     * @return boolean
+     */
+    public function offsetExists($offset)
+    {
+        return array_key_exists($offset, $this->fields);
+    }
+
+    /**
+     * Returns a bound form field when accessed as an array.
+     *
+     * @param string $offset The name of the field to retrieve.
+     *
+     * @throws Exception
+     * @return object
+     */
+    public function offsetGet($offset)
+    {
+        /**
+         * Try to find the requested field.
+         */
+        if (array_key_exists($offset, $this->fields)) {
+            /**
+             * Return a bound field instance for the field.
+             */
+            return new DForms_Fields_BoundField(
+                $this, 
+                $this->fields[$offset],
+                $offset
+            );
+        }
+        
+        /**
+         * Throw an exception if the field wasn't found.
+         */
+        throw new Exception('Form field not found.');
+    }
+    
+    /**
+     * Attempts to modify or add a field to a form resulting in an exception.
+     *
+     * @param string $offset The name of the field to add or modify.
+     * @param object $value  The new field or whatever.
+     *
+     * @throws Exception
+     * @return null
+     */
+    public function offsetSet($offset, $value)
+    {
+        /**
+         * Throw an exception without exception.
+         */
+        throw new Exception('Forms may not be modified via array access.');
+    }
+    
+    /**
+     * Throws an exception when trying to unset a field via array access.
+     *
+     * @param string $offset The name of the field to unset.
+     *
+     * @throws Exception
+     * @return null
+     */
+    public function offsetUnset($offset)
+    {
+        /**
+         * Try to find the requested field.
+         */
+        if (array_key_exists($offset, $this->fields)) {
+            /**
+             * Throw an exception because unsetting is not allowed.
+             */
+            throw new Exception('Form fields may not be removed.');
+        }
+        
+        /**
+         * Throw an error indicating a field wasn't found.
+         */
+        throw new Exception('Form field not found.');
+    }
+    
+    /**
+     * Resets the field iterator.
+     *
+     * @return null
+     */
+    public function rewind()
+    {
+        reset($this->fields);
+    }
+    
+    /**
+     * Returns the current field from the iterator.
+     *
+     * @return object
+     */
+    public function current()
+    {
+        return current($this->fields);
+    }
+    
+    /**
+     * Returns the current field name from the iterator.
+     *
+     * @return string
+     */
+    public function key()
+    {
+        return key($this->fields);
+    }
+
+    /**
+     * Returns the next field from the iterator.
+     *
+     * @return object
+     */
+    public function next()
+    {
+        return next($this->fields);
+    }
+
+    /**
+     * Returns a boolean indicating whether the current iterator field is valid.
+     *
+     * @return boolean
+     */
+    public function valid()
+    {
+        return $this->current() !== false;
+    }
+    
+    /**
+     * Returns the number of fields for the form.
+     *
+     * @return integer
+     */
+    public function count()
+    {
+        return count($this->fields);
     }
     
     /**
@@ -493,7 +620,7 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
         }
         unset($field);
         
-        if ($top_errors->count()) {
+        if (count($top_errors)) {
             array_unshift($output, sprintf($error_row, $top_errors));
         }
         
@@ -639,7 +766,7 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
                 /**
                  * Add the error to the form errors keyed off the field name.
                  */
-                $this->_errors->offsetSet($name, $error);
+                $this->_errors[$name] = $error;
                 
                 /**
                  * Remove the cleaned data for the errored field.
@@ -668,7 +795,7 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
             /**
              * Add the error to the form errors with the special global key.
              */
-            $this->_errors->offsetSet(self::NON_FIELD_ERRORS, $error);
+            $this->_errors[self::NON_FIELD_ERRORS] = $error;
         }
         
         /**
@@ -708,7 +835,7 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
             /**
              * Return the non field errors.
              */
-            return $this->errors->offsetGet(self::NON_FIELD_ERRORS);
+            return $this->errors[self::NON_FIELD_ERRORS];
         }
         
         /**
@@ -951,7 +1078,7 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
      */
     public function isValid()
     {
-        if ($this->is_bound and !$this->errors->count()) {
+        if ($this->is_bound and !count($this->errors)) {
             return true;
         }
         return false;
