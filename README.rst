@@ -7,8 +7,51 @@ DForms
 Motivation
 ----------
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+A modern web project's success can hinge on the underlying HTML forms library
+upon which it is built. PHP has come a long way since the days of manually
+manipulated ``$_POST`` data, but somehow a robust forms library has eluded
+the PHP community until now. Sure, you can get by with `HTML_Quickform2`_,
+`Zend_Form`_, or (my ol' standby) `Phorms`_, but they all leave something
+to be desired. Maybe I've been spoiled - after all, I'm a Python guy and have
+enjoyed some of the *many* decent Python form libraries that are available.
+My personal favorite has always been `Django`_'s ``django.forms`` library 
+(``django.newforms`` to the old-hat Django guys). It's a dream to work with, 
+and has the one modern convenience I haven't found in a PHP library anywhere:
+form *media*. Once you've worked with flashy, complex, possibly AJAX'ed forms
+in Django, you'll dread returning to the less advanced libraries of PHP. Also,
+it's worth mentioning that the concepts used in Django's forms are (imho)
+the most logically implemented that I've seen. No doubt, Django's ubiquity
+among Python web developers owes a great deal to its forms. After wrestling 
+with yet another PHP forms library recently, I realized that it had to be 
+done: ``django.forms`` needed a PHP port. Welcome to DForms!
 
+.. _HTML_Quickform2: http://pear.php.net/package/HTML_QuickForm2
+.. _Zend_Form: http://framework.zend.com/manual/en/zend.form.html
+.. _Phorms: http://www.artfulcode.net/phorms/
+.. _Django: http://djangoproject.com
+
+
+Departures From Django
+----------------------
+
+Sometimes PHP is quirky. It doesn't support many of the familiar Python
+language constructs to begin with, so porting Python code to PHP can be
+a rocky endeavor. Every effort has been made to duplicate the exact behavour
+of Django forms, with the following concessions:
+
+* Method names have been converted to camel case with very few exceptions. 
+  Eventually *all* method names should be camel case, but for now it is much
+  easier to use the Django names for "special" methods like 
+  ``Form::clean_<field name>()``.
+
+* The ``__toString()`` method in PHP *must* not throw or catch *any* exceptions 
+  due to a limitation of the PHP engine. Since form validation can sometimes be 
+  triggered automatically by outputting the string representation of a form 
+  (in Django anyway), the ``__toString()`` method cannot be used to output
+  the rendered form in DForms. To get the rendered form, use the ``html()``
+  method instead. At some point this could be rectified by pre-rendering and
+  caching the html, but that's a less than optimal solution.
+  
 
 Importing Into Your Project
 ---------------------------
@@ -46,22 +89,16 @@ of those used by `PEAR`_ and `Zend`_. Notable departures include:
 * Multi-line array declarations should contain *only* one array element per 
   line.
 
-* The `@access` and `@static` documentation directives are *never* used since 
+* The ``@access`` and ``@static`` documentation directives are *never* used since 
   they are redundant when using PHP5 classes.
 
-* Use only long form type names in documentation (i.e. `boolean` instead of 
-  `bool`).
+* Use only long form type names in documentation (i.e. ``boolean`` instead of 
+  ``bool``).
 
-* Never use `void` in documentation. Always use `null`.
+* Never use `void` in documentation. Always use ``null``.
 
 In the future, a custom `PHP CodeSniffer`_ extension will be available, All code 
 contributions *must* pass all tests defined by the extension to be eligible for 
 inclusion in the library.
 
 .. _PHP CodeSniffer: http://pear.php.net/package/PHP_CodeSniffer/
-
-
-The End
--------
-
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

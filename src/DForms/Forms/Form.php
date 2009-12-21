@@ -356,7 +356,7 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
      *
      * @return string
      */
-    public function __toString()
+    public function html()
     {
         /**
          * Renders the form as a table by default.
@@ -634,7 +634,7 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
                 /**
                  * Create an error object to store the field validation error.
                  */
-                $error = new $this->error_class($e->getMessage());
+                $error = new $this->error_class(array($e->getMessage()));
                 
                 /**
                  * Add the error to the form errors keyed off the field name.
@@ -658,12 +658,12 @@ abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
             /**
              * Store the modified cleaned data.
              */
-            $this->cleaned_data = self.clean();
+            $this->cleaned_data = $this->clean();
         } catch (DForms_Errors_ValidationError $e) {
             /**
              * Create an error object to store the global validation error.
              */
-            $error = new $this->error_class($e->getMessage());
+            $error = new $this->error_class(array($e->getMessage()));
             
             /**
              * Add the error to the form errors with the special global key.
