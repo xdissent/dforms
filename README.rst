@@ -191,6 +191,15 @@ There are a few things that still need to be completed:
   going to be very different from PHP's, I haven't gotten around to implementing
   file fields in DForms yet. It should be fairly simple and is first priority.
   
+* *Callable initial data* - Django allows you to pass a callable as initial data
+  for a field. If found, the initial value will be the value returned by the 
+  callable. It would be nice to add this feature so DForms would check to see
+  if a function exists with the name that was passed as the initial value. There
+  could obviously be collisions with globally defined functions, but 
+  ``create_function()`` would be the preferred method of callback generation,
+  and it generates absolutely unique function names. All global names are known
+  and should be avoided, or even passed intentionally.
+  
 * *Debugger* - PHP errors and exceptions are a *real* pain to handle. One 
   unfinished DForms feature is a built in debugger that kicks you to a Django
   style error page when something goes awry. Although off by default, this
@@ -219,6 +228,31 @@ There are a few things that still need to be completed:
 
 I could always use help with the above tasks, so please get in contact if you
 have hacking time to spare!
+
+PHP 5.3 contains some REALLY nice features like `late static bindings`_,
+`anonymous functions`_, `statically called magic methods`_ and `namespaces`_.
+Unfortunately, almost no one has access to version 5.3 in a shared hosting 
+environment, which would *seriously* limit the real world usability of DForms.
+However, at some point the 5.3 branch will be ubiquitous and we will want to
+take advantage of the new features. Specifically, the following changes would
+be made:
+
+.. _late static bindings: http://php.net/manual/en/language.oop5.late-static-bindings.php
+.. _anonymous functions: http://php.net/manual/en/functions.anonymous.php
+.. _statically called magic methods: http://php.net/__callstatic
+.. _namespaces: http://php.net/namespaces
+
+* Namespace DForms.
+
+* Allow true anonymous functions as initial data callbacks.
+
+* Simplify field, media, etc. inheritance with late static bindings.
+
+A PHP 5.3 branch of DForms will be created once the time comes to start 
+thinking about transitioning. The code for both versions cannot exit
+in the same branch no matter how much internal version detection is in place;
+the ``static`` keyword in any functional code will cause a fatal (uncatchable) 
+error when parsed.
 
 
 Coding Style
