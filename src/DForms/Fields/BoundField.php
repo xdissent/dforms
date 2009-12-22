@@ -167,6 +167,10 @@ class DForms_Fields_BoundField
             } else {
                 $data = $this->field->initial;
             }
+            
+            if (is_callable($data)) {
+                $data = call_user_func($data);
+            }
         } else {
             if ($this->field instanceof DForms_Fields_FileField 
                 && is_null($this->data)

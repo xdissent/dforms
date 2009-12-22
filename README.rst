@@ -69,6 +69,13 @@ of Django forms, with the following concessions:
   make overriding widgets just a tad annoying if you have to do it many times,
   so a ``TextField`` class is a ``CharField`` with a ``Textarea`` widget added
   for convenience.
+  
+* Django allows you to pass a callable as initial data for a field. If found, 
+  the initial value will be the value returned by the callable. In PHP, you
+  can't store an actual function in a variable. Instead, you may pass initial
+  data that is either a string or an array in the form accepted by 
+  ``call_user_func()``. Be careful when setting initial values so that you 
+  don't accidentally collide with an existing PHP function.
 
 
 Importing Into Your Project
@@ -190,15 +197,6 @@ There are a few things that still need to be completed:
 * *File upload handling* - Since Django's file manipulation classes are obviously
   going to be very different from PHP's, I haven't gotten around to implementing
   file fields in DForms yet. It should be fairly simple and is first priority.
-  
-* *Callable initial data* - Django allows you to pass a callable as initial data
-  for a field. If found, the initial value will be the value returned by the 
-  callable. It would be nice to add this feature so DForms would check to see
-  if a function exists with the name that was passed as the initial value. There
-  could obviously be collisions with globally defined functions, but 
-  ``create_function()`` would be the preferred method of callback generation,
-  and it generates absolutely unique function names. All global names are known
-  and should be avoided, or even passed intentionally.
   
 * *Debugger* - PHP errors and exceptions are a *real* pain to handle. One 
   unfinished DForms feature is a built in debugger that kicks you to a Django
