@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class DForms_Fields_Field</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+						<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class DForms_Fields_Field</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The DForms field base class.</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Greg Thornton &lt;<a href="mailto:xdissent@gmail.com">xdissent@gmail.com</a>&gt;</li>
+				<li><span class="field">copyright:</span> 2009 Greg Thornton</li>
+				<li><span class="field">link:</span> <a href="http://xdissent.github.com/dforms/">http://xdissent.github.com/dforms/</a></li>
+				<li><span class="field">abstract:</span> </li>
+				<li><span class="field">license:</span> <a href="http://creativecommons.org/licenses/by-sa/3.0/us/">http://creativecommons.org/licenses/by-sa/3.0/us/</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_DForms---Fields---Field.php.html">/DForms/Fields/Field.php</a> (line <span class="field">37</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../../DForms/Fields/DForms_Fields_CharField.html">DForms_Fields_CharField</a></td>
+					<td>
+											The DForms field base class.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../../DForms/Fields/DForms_Fields_FileField.html">DForms_Fields_FileField</a></td>
+					<td>
+											The DForms field base class.
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+												<div class="var-title">
+					static <span class="var-type">mixed</span>
+					<a href="#$creation_counter" title="details" class="var-name">$creation_counter</a>
+				</div>
+																																																																																												<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$error_messages" title="details" class="var-name">$error_messages</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">string</span>
+					<a href="#$help_text" title="details" class="var-name">$help_text</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">string</span>
+					<a href="#$hidden_widget" title="details" class="var-name">$hidden_widget</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$initial" title="details" class="var-name">$initial</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">string</span>
+					<a href="#$label" title="details" class="var-name">$label</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">boolean</span>
+					<a href="#$required" title="details" class="var-name">$required</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">boolean</span>
+					<a href="#$show_hidden_initial" title="details" class="var-name">$show_hidden_initial</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$widget" title="details" class="var-name">$widget</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																										
+				<div class="method-definition">
+					static 						<span class="method-result">array</span>
+										<a href="#errorMessages" title="details" class="method-name">errorMessages</a>
+										()
+									</div>
+																																										
+				<div class="method-definition">
+											<span class="method-result">null</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+											([<span class="var-type">mixed</span>&nbsp;<span class="var-name">$label</span> = <span class="var-default">null</span>], [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$help_text</span> = <span class="var-default">null</span>], [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$initial</span> = <span class="var-default">null</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$required</span> = <span class="var-default">true</span>], [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$widget</span> = <span class="var-default">null</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$error_messages</span> = <span class="var-default">null</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$show_hidden_initial</span> = <span class="var-default">false</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#clean" title="details" class="method-name">clean</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+									</div>
+																						
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getErrorMessages" title="details" class="method-name">getErrorMessages</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$class</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#isEmptyValue" title="details" class="method-name">isEmptyValue</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#widgetAttrs" title="details" class="method-name">widgetAttrs</a>
+											(<span class="var-type">object</span>&nbsp;<span class="var-name">$widget</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="var$creation_counter" id="$creation_counter"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			static <span class="var-type">mixed</span>
+			<span class="var-name">$creation_counter</span>
+			 = <span class="var-default"> 0</span>			(line <span class="line-number">174</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The creation counter for all field instances.</p>
+<p class="description"><p>It can be difficult to keep track of the order in which fields should  be presented when rendering a form. This counter is used to ensure  all fields are rendered in the correct order. Each time a field is  instantiated, this counter is saved to an instance member variable  and then incremented statically.</p><p>var integer</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+
+<a name="var$error_messages" id="$error_messages"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$error_messages</span>
+						(line <span class="line-number">149</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The field error messages.</p>
+<p class="description"><p>Invalid fields will throw validation exceptions, which are usually  caught by forms. Often, a message should be displayed indicating  exactly what went wrong. The error messages member is an associative  array consisting of error names (as keys) and messages (as values).  Field classes may override the ``errorMessages`` static method to  provide defaults. It's important to remember that field validation  is almost always inherited rather than completely overridden. For  this reason, subclasses will always inherit a parent class's  error messages, which are then updated, rather than replaced, by  those defined in the child class's ``errorMessages`` method. Field  instances may also provide additional messages, or override parent  messages when instantiated.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$help_text" id="$help_text"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$help_text</span>
+						(line <span class="line-number">67</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The field help text.</p>
+<p class="description"><p>A field can define a help string to provide the end user with info about  how to use the field properly. This is particularly useful in more  complex fields and is *highly* recommended. A form can always choose to  ignore its fields' help texts, so it's best to define it in all cases  for compatibility.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$hidden_widget" id="$hidden_widget"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$hidden_widget</span>
+			 = <span class="var-default"> 'DForms_Widgets_HiddenInput'</span>			(line <span class="line-number">129</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The field's hidden widget class name.</p>
+<p class="description"><p>A form may provide a hidden widget along side each field to store the  initial value. This class name is used to instantiate that widget.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$initial" id="$initial"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$initial</span>
+						(line <span class="line-number">80</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The field initial value.</p>
+<p class="description"><p>Each field class may redefine this default initial value, which is used  in a field if the containing form's data has no value for this field.  The initial value may be overridden when instantiating a field, or  when instantiating a form, in that order. Passing ``null`` in either  case will invoke the field class level default value.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$label" id="$label"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$label</span>
+						(line <span class="line-number">54</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The field label.</p>
+<p class="description"><p>Each field should have a label string, which is often displayed with  the field's widget when a form is rendered. Field subclasses can specify  a default label by redeclaring this member variable with a value. Keep  in mind that when instantiating a field, a label may also be specified,  which overrides this class-wide default. Pass ``null`` to invoke the  default value.</p><p>.. note:: This member variable must remain public since it is accessed            by bound field instances representing the field.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$required" id="$required"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">boolean</span>
+			<span class="var-name">$required</span>
+						(line <span class="line-number">97</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">A flag indicating that a field is required in a form.</p>
+<p class="description"><p>To indicate that a field should not be required, pass ``false`` when  instantiating the field.</p><p>By default, a form will be considered invalid if its data doesn't contain  a value for each and every field. You may override this behaviour on a  field by field basis when you instantiate the fields for a form.</p><p>.. note:: This member variable must remain public since it is accessed            by bound field instances representing the field.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$show_hidden_initial" id="$show_hidden_initial"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">boolean</span>
+			<span class="var-name">$show_hidden_initial</span>
+						(line <span class="line-number">161</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">A flag indicating that we should show a hidden initial value widget.</p>
+<p class="description"><p>When a form is rendered, a field with this flag set to ``true`` will  have a hidden widget rendered along with the field's normal widget  containing the initial value of the field. Useful for complex fields  that require checking against the initial value.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$widget" id="$widget"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$widget</span>
+			 = <span class="var-default"> 'DForms_Widgets_TextInput'</span>			(line <span class="line-number">119</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The field widget.</p>
+<p class="description"><p>Fields use a widget to handle the rendering of its value into markup.  Field classes may override the type of widget to use by redefining  this member variable with a string representing the widget class name.  They may also set the value of this member variable to either a widget  class name *or* a widget instance before calling the default constructor  to override behaviour on a per-instance level. Of course, a class or  instance may be specified when instantiating a field, or pass ``null``  to use the default widget as specified in either the constructor or  field class declaration.</p><p>.. note:: This member is public to facilitate access to the widget's     methods and properties by things like forms. That's not so bad     because after the field is initialized, we're guaranteed to have     an actual widget instance.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methoderrorMessages" id="errorMessages"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static errorMessages</span> (line <span class="line-number">425</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the error messages to use by default for the field.</p>
+<p class="description"><p>Field classes may override this static method to provide extra error  messages specific to the field type.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">array</span>
+		<span class="method-name">
+			errorMessages
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../DForms/Fields/DForms_Fields_CharField.html#methoderrorMessages">DForms_Fields_CharField::errorMessages()</a>
+							</li>
+				</ul>
+	</div>
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">210</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Instantiates a field.</p>
+<p class="description"><p>Instances that wish to override the widget with a widget *instance*  should do so in their constructor *before* calling this constructor.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">null</span>
+		<span class="method-name">
+			__construct
+		</span>
+					([<span class="var-type">mixed</span>&nbsp;<span class="var-name">$label</span> = <span class="var-default">null</span>], [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$help_text</span> = <span class="var-default">null</span>], [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$initial</span> = <span class="var-default">null</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$required</span> = <span class="var-default">true</span>], [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$widget</span> = <span class="var-default">null</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$error_messages</span> = <span class="var-default">null</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$show_hidden_initial</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$label</span><span class="var-description">: The label to display for the field.                                      Pass null for the class default.</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$help_text</span><span class="var-description">: The help text to display for the                                      field. Pass null for the class                                      default.</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$initial</span><span class="var-description">: The initial value to use for the                                      field. Pass null for the class                                      default.</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$required</span><span class="var-description">: A flag indicating whether a field is                                      required.</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$widget</span><span class="var-description">: The class name or instance of the                                      widget for the field.</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$error_messages</span><span class="var-description">: An array of error messages for the                                      field.</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$show_hidden_initial</span><span class="var-description">: A flag indicating whether a field                                      should be rendered with a hidden                                      widget containing the initial value.</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../DForms/Fields/DForms_Fields_CharField.html#method__construct">DForms_Fields_CharField::__construct()</a>
+							</li>
+				</ul>
+	</div>
+<a name="methodclean" id="clean"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">clean</span> (line <span class="line-number">331</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Validates the given value and returns a cleaned (valid) value.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> DForms_Errors_ValidationError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			clean
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$value</span><span class="var-description">: The value to clean.</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../DForms/Fields/DForms_Fields_CharField.html#methodclean">DForms_Fields_CharField::clean()</a>
+							</li>
+				</ul>
+	</div>
+<a name="methodgetErrorMessages" id="getErrorMessages"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getErrorMessages</span> (line <span class="line-number">378</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the combined inherited error messages for the field.</p>
+<p class="description"><p>.. note:: This method must remain public since it is accessed by     ``call_user_func()``. It should be protected.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getErrorMessages
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$class</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$class</span><span class="var-description">: The class name to retrieve error message from. Pass                       ``null`` to get all inherited errors for the form.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisEmptyValue" id="isEmptyValue"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">isEmptyValue</span> (line <span class="line-number">308</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Determine if the given value is actually empty.</p>
+<p class="description"><p>Only ``null`` and the empty string, ``''`` are considered &quot;empty&quot;. This  allows for things like boolean fields which need to receive ``false`` or  number fields that need to receive ``0``.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			isEmptyValue
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$value</span><span class="var-description">: The value to check for empty.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodwidgetAttrs" id="widgetAttrs"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">widgetAttrs</span> (line <span class="line-number">362</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the attributes for this field that should be added to the widget.</p>
+<p class="description"><p>Field classes may override this method to return custom attributes. The  returned value should be an associative array of attributes.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			widgetAttrs
+		</span>
+					(<span class="var-type">object</span>&nbsp;<span class="var-name">$widget</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object</span>
+				<span class="var-name">$widget</span><span class="var-description">: The widget instance that will recieve the                        returned attributes.</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../DForms/Fields/DForms_Fields_CharField.html#methodwidgetAttrs">DForms_Fields_CharField::widgetAttrs()</a>
+							</li>
+				</ul>
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 22 Dec 2009 15:27:49 -0600 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

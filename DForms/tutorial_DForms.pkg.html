@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>DForms Overview</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+
+<div><a name=""></a><div class="ref-title-box"><h1 class="ref-title">DForms Overview</h1>
+<h2 class="ref-purpose">We found the missing PHP forms library. It was in Python.</h2></div>
+<div class="ref-synopsis"><span class="author">Greg Thornton<div class="author-blurb"><a href="mailto:xdissent@gmail.com">xdissent@gmail.com</a></div></span></div><h1 class="title">Table of Contents</h1>
+<ul class="toc">
+	
+			
+					<li><a href="../DForms/tutorial_DForms.pkg.html#motivation">Motivation</a></li>
+					
+					<li><a href="../DForms/tutorial_DForms.pkg.html#departures-from-django">Departures From Django</a></li>
+					
+					<li><a href="../DForms/tutorial_DForms.pkg.html#importing-into-your-project">Importing Into Your Project</a></li>
+					
+					<li><a href="../DForms/tutorial_DForms.pkg.html#quick-example">Quick Example</a></li>
+					
+					<li><a href="../DForms/tutorial_DForms.pkg.html#the-future">The Future</a></li>
+					
+					<li><a href="../DForms/tutorial_DForms.pkg.html#coding-style">Coding Style</a></li>
+					</ul>
+
+<span><a name="motivation"></a><h2 class="title">Motivation</h2><p>A modern web project's success can hinge on the underlying HTML forms library
+upon which it is built. PHP has come a long way since the days of manually
+manipulated <code>$_POST</code> data, but somehow a robust forms library has eluded
+the PHP community until now. Sure, you can get by with <a href="http://pear.php.net/package/HTML_QuickForm2">HTML_Quickform2</a>,
+<a href="http://framework.zend.com/manual/en/zend.form.html">Zend_Form</a>, or (my ol' standby) <a href="http://www.artfulcode.net/phorms/">Phorms</a>, but they all leave something
+to be desired. Maybe I've been spoiled - after all, I'm (now) a Python guy and
+have enjoyed some of the <em>many</em> decent Python form libraries that are available.
+My personal favorite has always been <a href="http://djangoproject.com">Django</a>'s <code>django.forms</code> library
+(<code>django.newforms</code> to the old-hat Django guys). It's a dream to work with,
+and has the one modern convenience I haven't found in a PHP library anywhere:
+form <em>media</em>. Once you've worked with flashy, complex, possibly AJAX'ed forms
+in Django, you'll dread returning to the less advanced libraries of PHP. Also,
+it's worth mentioning that the concepts used in Django's forms are (imho)
+the most logically implemented that I've seen. No doubt, Django's ubiquity
+among Python web developers owes a great deal to its forms. After wrestling
+with yet another PHP forms library recently, I realized that it had to be
+done: <code>django.forms</code> needed a PHP port. Welcome to DForms!</p></span>
+<span><a name="departures-from-django"></a><h2 class="title">Departures From Django</h2><p>Sometimes PHP is quirky. It doesn't support many of the familiar Python
+language constructs to begin with, so porting Python code to PHP can be
+a rocky endeavor. Every effort has been made to duplicate the exact behavour
+of Django forms, with the following concessions:</p><ul><li><p>PHP lacks keyword arguments, so to change the value of a parameter near the
+end of the argument list requires a much longer constructor. I'm open for
+suggestions about how to implement keyword arguments in PHP, but every
+solution I've seen so far has required a <em>lot</em> of boilerplate, which defeats
+the purpose. In most cases, argument lists have been rearranged to allow
+short method calls for the most common scenarios.</p></li>
+<li><p>Method names have been converted to camel case with very few exceptions.
+Eventually <em>all</em> method names should be camel case, but for now it is much
+easier to use the Django names for &quot;special&quot; methods like
+<code>Form::clean_&lt;field name&gt;()</code>.</p></li>
+<li><p>The <code>__toString()</code> method in PHP <em>must</em> not throw or catch <em>any</em> exceptions
+due to a limitation of the PHP engine. Since form validation can sometimes be
+triggered automatically by outputting the string representation of a form
+(in Django anyway), the <code>__toString()</code> method cannot be used to output
+the rendered form in DForms. To get the rendered form, use the <code>html()</code>
+method instead. At some point this could be rectified by pre-rendering and
+caching the html, but that's a less than optimal solution.</p></li>
+<li><p>There exists no way to define class level member variables with complex types
+like in Python. In cases where this method is used in Django forms (i.e. when
+defining fields), a public static method is provided in DForms to accomplish
+the same task. Simply override the method in the child class to define new
+class data. See below for an example of defining fields in this manner.</p></li>
+<li><p>DForms defines a <code>TextField</code> class where Django does not. Long constructors
+make overriding widgets just a tad annoying if you have to do it many times,
+so a <code>TextField</code> class is a <code>CharField</code> with a <code>Textarea</code> widget added
+for convenience.</p></li>
+<li><p>Django allows you to pass a callable as initial data for a field. If found,
+the initial value will be the value returned by the callable. In PHP, you
+can't store an actual function in a variable. Instead, you may pass initial
+data that is either a string or an array in the form accepted by
+<code>call_user_func()</code>. Be careful when setting initial values so that you
+don't accidentally collide with an existing PHP function.</p></li></ul></span>
+<span><a name="importing-into-your-project"></a><h2 class="title">Importing Into Your Project</h2><p>PHP code often becomes confusing, redundant and possibly erroneous when many
+classes or files rely on each other and must be imported, often in a very
+specific order. DForms takes a cue from Python in this regard, and offers an
+&quot;import&quot; script as a single point of entry for the entire library. By importing
+DForms <em>once</em> in your project, you are assured that all classes are made
+available to your code, without having to remember which class depends on which
+file or the correct order of inclusion. Just
+<code>require_once 'DForms/import.php';</code> and you're good to go!</p><p>Under the hood, <code>import.php</code> simply registers the DForms auto loader, which
+borrows yet another Pythonic concept: lazy loading. Referencing a DForms class
+by name will automatically include the source file and any dependencies for the
+requested class. From that point on, the class is available in your code, and
+any classes that haven't been used are not even loaded to begin with. The end
+result is clean, intuitive and <em>efficient</em> code.</p></span>
+<span><a name="quick-example"></a><h2 class="title">Quick Example</h2><p>Here's a quick introductory snippet:</p><div class="src-code"><ol><li><div class="src-line"><span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><span class="src-doc">&nbsp;*&nbsp;Import&nbsp;DForm.</span></div></li>
+<li><div class="src-line"><span class="src-doc">&nbsp;*/</span></div></li>
+<li><div class="src-line"><span class="src-inc">require_once&nbsp;</span><span class="src-str">'DForms/import.php'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><span class="src-doc">&nbsp;*&nbsp;Define&nbsp;a&nbsp;simple&nbsp;form.</span></div></li>
+<li><div class="src-line"><span class="src-doc">&nbsp;*/</span></div></li>
+<li><div class="src-line"><span class="src-key">class&nbsp;</span><span class="src-id">DemoForm&nbsp;</span><span class="src-key">extends&nbsp;</span><a href="../DForms/Forms/DForms_Forms_Form.html">DForms_Forms_Form</a></div></li>
+<li><div class="src-line"><span class="src-sym">{</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Declare&nbsp;some&nbsp;fields.</span></div></li>
+<li><div class="src-line"><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><span class="src-key">static&nbsp;</span><span class="src-key">function&nbsp;</span><span class="src-id">fields</span><span class="src-sym">(</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">return&nbsp;</span><span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'first_name'&nbsp;</span>=&gt;&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id"><a href="../DForms/Fields/DForms_Fields_CharField.html">DForms_Fields_CharField</a></span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'First&nbsp;Name'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'Enter&nbsp;your&nbsp;first&nbsp;name.'</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'last_name'&nbsp;</span>=&gt;&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id"><a href="../DForms/Fields/DForms_Fields_CharField.html">DForms_Fields_CharField</a></span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'Last&nbsp;Name'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'Enter&nbsp;your&nbsp;last&nbsp;name.'</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Declare&nbsp;some&nbsp;form&nbsp;media.</span></div></li>
+<li><div class="src-line"><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><span class="src-key">static&nbsp;</span><span class="src-key">function&nbsp;</span><span class="src-id">media</span><span class="src-sym">(</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">return&nbsp;</span><span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'js'&nbsp;</span>=&gt;&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'demo.js'</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'css'&nbsp;</span>=&gt;&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'screen'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'demo.css'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'print'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'print.css'</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><span class="src-sym">}</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-var">$_SERVER</span><span class="src-sym">[</span><span class="src-str">'REQUEST_METHOD'</span><span class="src-sym">]&nbsp;</span>==&nbsp;<span class="src-str">'POST'</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Bind&nbsp;the&nbsp;form&nbsp;to&nbsp;the&nbsp;POST&nbsp;data.</span></div></li>
+<li><div class="src-line"><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$form&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">DemoForm</span><span class="src-sym">(</span><span class="src-var">$_POST</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-var">$form</span><span class="src-sym">-&gt;</span><span class="src-id">isValid</span><span class="src-sym">(</span><span class="src-sym">))&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Do&nbsp;something&nbsp;with&nbsp;the&nbsp;form&nbsp;data.</span></div></li>
+<li><div class="src-line"><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-id">do_something</span><span class="src-sym">(</span><span class="src-var">$form</span><span class="src-sym">-&gt;</span><span class="src-id">cleaned_data</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}}&nbsp;</span><span class="src-key">else&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Instantiate&nbsp;an&nbsp;unbound&nbsp;form.</span></div></li>
+<li><div class="src-line"><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$form&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">DemoForm</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><span class="src-sym">}</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line"><span class="src-php">?&gt;</span></div></li>
+<li><div class="src-line">&lt;html&gt;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&lt;head&gt;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-php">&lt;?=&nbsp;</span><span class="src-var">$form</span><span class="src-sym">-&gt;</span><span class="src-id">media&nbsp;</span><span class="src-php">?&gt;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/head&gt;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&lt;body&gt;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;form&nbsp;action=&quot;&quot;&nbsp;method=&quot;POST&quot;&gt;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;table&gt;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-php">&lt;?=&nbsp;</span><span class="src-var">$form</span><span class="src-sym">-&gt;</span><span class="src-id">html</span><span class="src-sym">(</span><span class="src-sym">)&nbsp;</span><span class="src-php">?&gt;</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;colspan=&quot;2&quot;&gt;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;submit&quot;&nbsp;/&gt;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/td&gt;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/table&gt;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/form&gt;</div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/body&gt;</div></li>
+<li><div class="src-line">&lt;/html&gt;</div></li>
+</ol></div></span>
+<span><a name="the-future"></a><h2 class="title">The Future</h2><p>There are a few things that still need to be completed:</p><ul><li><p><em>File upload handling</em> - Since Django's file manipulation classes are obviously
+going to be very different from PHP's, I haven't gotten around to implementing
+file fields in DForms yet. It should be fairly simple and is first priority.</p></li>
+<li><p><em>Debugger</em> - PHP errors and exceptions are a <em>real</em> pain to handle. One
+unfinished DForms feature is a built in debugger that kicks you to a Django
+style error page when something goes awry. Although off by default, this
+could be overkill.</p></li>
+<li><p><em>Tests</em> - I've got a few <a href="http://www.simpletest.org">SimpleTest</a> test suites for regression testing, but
+they have not been included in the DForms package. This is because I'm
+reviewing PHP testing options. Any suggestions?</p></li>
+<li><p><em>More field types</em> - Right now we're lacking a few field types that Django
+provides, but they should all be available soon.</p></li>
+<li><p><em>Formsets</em> - <a href="http://docs.djangoproject.com/en/dev/topics/forms/formsets/">Django formsets</a> should work as expected when the factory code
+is ported into DForms, but it hasn't <em>yet</em>.</p></li>
+<li><p><em>Demos / Examples</em> - For the uninitiated, DForms might evoke a &quot;eh, big deal&quot;
+reaction. It would be nice to have some examples showing why Django style
+forms are so great.</p></li>
+<li><p><em>Documentation site</em> - DForms is <em>always</em> documented inline with extreme
+verbosity using <a href="http://www.phpdoc.org">phpDoc</a> and the rendered docs should be uploaded somewhere.</p></li></ul>
+<p><a name="phpdoc"></a>I could always use help with the above tasks, so please get in contact if you
+have hacking time to spare!</p><p>PHP 5.3 contains some REALLY nice features like <a href="http://php.net/manual/en/language.oop5.late-static-bindings.php">late static bindings</a>,
+<a href="http://php.net/manual/en/functions.anonymous.php">anonymous functions</a>, <a href="http://php.net/__callstatic">statically called magic methods</a> and <a href="http://php.net/namespaces">namespaces</a>.
+Unfortunately, almost no one has access to version 5.3 in a shared hosting
+environment, which would <em>seriously</em> limit the real world usability of DForms.
+However, at some point the 5.3 branch will be ubiquitous and we will want to
+take advantage of the new features. Specifically, the following changes would
+be made:</p><ul><a name="namespaces"></a><li><p>Namespace DForms.</p></li>
+<li><p>Allow true anonymous functions as initial data callbacks.</p></li>
+<li><p>Simplify field, media, etc. inheritance with late static bindings.</p></li></ul>
+<p>A PHP 5.3 branch of DForms will be created once the time comes to start
+thinking about transitioning. The code for both versions cannot exit
+in the same branch no matter how much internal version detection is in place;
+the <code>static</code> keyword in any functional code will cause a fatal (uncatchable)
+error when parsed.</p></span>
+<span><a name="coding-style"></a><h2 class="title">Coding Style</h2><p>One of DForms' strengths is its meticulously clean code. If you're planning to
+contribute code or want to better understand the inner workings of the library,
+it's important to be familiar with our coding style, which is a combination of
+of those used by <a href="http://pear.php.net/manual/en/standards.php">PEAR</a> and <a href="http://framework.zend.com/manual/en/coding-standard.coding-style.html">Zend</a>. Notable departures include:</p><ul><a name="zend"></a><li><p>PHP files may <em>never</em> contain the closing PHP tag at the end of the file.</p></li>
+<li><p>Multi-line array declarations should contain <em>only</em> one array element per
+line.</p></li>
+<li><p>The <code>@access</code> and <code>@static</code> documentation directives are <em>never</em> used since
+they are redundant when using PHP5 classes.</p></li>
+<li><p>Use only long form type names in documentation (i.e. <code>boolean</code> instead of
+<code>bool</code>).</p></li>
+<li><p>Never use void in documentation. Always use <code>null</code>.</p></li></ul>
+<p>In the future, a custom <a href="http://pear.php.net/package/PHP_CodeSniffer/">PHP CodeSniffer</a> extension will be available, All code
+contributions <em>must</em> pass all tests defined by the extension to be eligible for
+inclusion in the library.</p></span></div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 22 Dec 2009 15:27:47 -0600 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>
