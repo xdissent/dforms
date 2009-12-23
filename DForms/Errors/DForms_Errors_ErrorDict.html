@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class DForms_Errors_ErrorDict</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+						<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class DForms_Errors_ErrorDict</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+											<a href="#sec-consts">Constants</a>
+						
+			</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">A dictionary of errors with special output rendering methods.</p>
+<p class="description"><p>The errors contained in the dictionary may be accessed using familiar  associative array syntax:</p><p><div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$messages&nbsp;</span>=&nbsp;<span class="src-key">array</span><span class="src-sym">(</span><span class="src-str">'test'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'A&nbsp;test&nbsp;error&nbsp;occurred.'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line">&nbsp;<span class="src-comm">//&nbsp;Create&nbsp;an&nbsp;error&nbsp;dictionary&nbsp;from&nbsp;existing&nbsp;array.</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$errors&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id"><a href="../../DForms/Errors/DForms_Errors_ErrorDict.html">DForms_Errors_ErrorDict</a></span><span class="src-sym">(</span><span class="src-var">$messages</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line">&nbsp;<span class="src-comm">//&nbsp;Loop&nbsp;over&nbsp;each&nbsp;error&nbsp;in&nbsp;the&nbsp;dictionary.</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-key">foreach&nbsp;</span><span class="src-sym">(</span><span class="src-var">$errors&nbsp;</span><span class="src-key">as&nbsp;</span><span class="src-var">$name&nbsp;</span>=&gt;&nbsp;<span class="src-var">$msg</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<a href="http://www.php.net/sprintf">sprintf</a><span class="src-sym">(</span><span class="src-str">'Found&nbsp;error&nbsp;%s:&nbsp;%s'</span><span class="src-sym">,&nbsp;</span><span class="src-var">$name</span><span class="src-sym">,&nbsp;</span><span class="src-var">$msg</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line">&nbsp;<span class="src-comm">//&nbsp;Remove&nbsp;an&nbsp;error&nbsp;from&nbsp;the&nbsp;dictionary.</span></div></li>
+<li><div class="src-line">&nbsp;unset<span class="src-sym">(</span><span class="src-var">$errors</span><span class="src-sym">[</span><span class="src-str">'test'</span><span class="src-sym">]</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line">&nbsp;<span class="src-comm">//&nbsp;Check&nbsp;for&nbsp;errors.</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-key">if&nbsp;</span><span class="src-sym">(</span><a href="http://www.php.net/count">count</a><span class="src-sym">(</span><span class="src-var">$errors</span><span class="src-sym">))&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-id">do_something</span><span class="src-sym">(</span><span class="src-var">$errors</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line">&nbsp;<span class="src-comm">//&nbsp;Output&nbsp;errors&nbsp;rendered&nbsp;as&nbsp;html.</span></div></li>
+<li><div class="src-line">&nbsp;echo&nbsp;<span class="src-var">$errors</span><span class="src-sym">;</span></div></li>
+</ol></div></p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Greg Thornton &lt;<a href="mailto:xdissent@gmail.com">xdissent@gmail.com</a>&gt;</li>
+				<li><span class="field">copyright:</span> 2009 Greg Thornton</li>
+				<li><span class="field">link:</span> <a href="http://xdissent.github.com/dforms/">http://xdissent.github.com/dforms/</a></li>
+				<li><span class="field">license:</span> <a href="http://creativecommons.org/licenses/by-sa/3.0/us/">http://creativecommons.org/licenses/by-sa/3.0/us/</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_DForms---Errors---ErrorDict.php.html">/DForms/Errors/ErrorDict.php</a> (line <span class="field">63</span>)
+		</p>
+		
+				
+		<pre>ArrayObject
+   |
+   --DForms_Errors_ErrorDict</pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-consts">Constants</a>
+							
+									<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#asUL" title="details" class="method-name">asUL</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#__toString" title="details" class="method-name">__toString</a>
+										()
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-consts">Constants</a>
+							
+										<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodasUL" id="asUL"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">asUL</span> (line <span class="line-number">80</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an error dictionary as an unordered list in HTML.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			asUL
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method__toString" id="__toString"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">__toString</span> (line <span class="line-number">70</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an error dictionary rendered as HTML.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			__toString
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname">ArrayObject (Internal Class)</span></p>
+					<blockquote>
+													<span class="method-name">constructor __construct ( $array )</span><br>
+													<span class="method-name">append ( $value )</span><br>
+													<span class="method-name">asort (  )</span><br>
+													<span class="method-name">count (  )</span><br>
+													<span class="method-name">exchangeArray ( $array )</span><br>
+													<span class="method-name">getArrayCopy (  )</span><br>
+													<span class="method-name">getFlags (  )</span><br>
+													<span class="method-name">getIterator (  )</span><br>
+													<span class="method-name">getIteratorClass (  )</span><br>
+													<span class="method-name">ksort (  )</span><br>
+													<span class="method-name">natcasesort (  )</span><br>
+													<span class="method-name">natsort (  )</span><br>
+													<span class="method-name">offsetExists ( $index )</span><br>
+													<span class="method-name">offsetGet ( $index )</span><br>
+													<span class="method-name">offsetSet ( $index, $newval )</span><br>
+													<span class="method-name">offsetUnset ( $index )</span><br>
+													<span class="method-name">serialize (  )</span><br>
+													<span class="method-name">setFlags ( $flags )</span><br>
+													<span class="method-name">setIteratorClass ( $iteratorClass )</span><br>
+													<span class="method-name">uasort ( $cmp_function )</span><br>
+													<span class="method-name">uksort ( $cmp_function )</span><br>
+													<span class="method-name">unserialize ( $serialized )</span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+	<a name="sec-consts"></a>
+	<div class="info-box">
+		<div class="info-box-title">Class Constants</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Constants</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+										<h4>Inherited Constants</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname">ArrayObject (Internal Class)</span></p>
+					<blockquote>
+													<img src="../../media/images/Variable.png" />
+							<span class="const-title">
+								<span class="const-name">ARRAY_AS_PROPS = 2</span><br>
+							</span>
+													<img src="../../media/images/Variable.png" />
+							<span class="const-title">
+								<span class="const-name">STD_PROP_LIST = 1</span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 22 Dec 2009 23:50:33 -0600 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>
