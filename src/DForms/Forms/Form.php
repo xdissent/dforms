@@ -25,6 +25,32 @@
 
 /**
  * The DForms form base class.
+ * 
+ * To define a form, subclass this abstract base class and provide an 
+ * implementation for the abstact ``fields()`` static method which
+ * returns an array of fields to be associated with the form:
+ * 
+ * <code>
+ * class ContactForm extends DForms_Forms_Form
+ * {
+ *     public static function fields()
+ *     {
+ *         return array(
+ *             'subject' => new DForms_Fields_CharField(null, null, 100),
+ *             'message' => new DForms_Fields_TextField(),
+ *             'sender' => new DForms_Fields_EmailField(),
+ *             'cc_myself' => new DForms_Fields_BooleanField(
+ *                 null, 
+ *                 null, 
+ *                 null, 
+ *                 false
+ *             )
+ *         );
+ *     }
+ * }
+ * </code>
+ *
+ * A form
  *
  * @category   HTML
  * @package    DForms

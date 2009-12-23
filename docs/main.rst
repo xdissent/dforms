@@ -1,8 +1,14 @@
-======
-DForms
-======
+===============
+DForms Overview
+===============
+---------------------------------------------------------
+We found the missing PHP forms library. It was in Python.
+---------------------------------------------------------
 
-*We found the missing PHP forms library. It was in Python.*
+:Author: Greg Thornton
+:Contact: xdissent@gmail.com
+
+.. contents::
 
 Motivation
 ----------

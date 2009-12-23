@@ -1,17 +1,72 @@
 <?php
+/**
+ * Media
+ *
+ * This file defines the media handling class.
+ *
+ * PHP version 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the Creative 
+ * Commons Attribution-Share Alike United States license that is available 
+ * through the world-wide-web at the following URI: 
+ * http://creativecommons.org/licenses/by-nc-nd/3.0/us/. If you did 
+ * not receive a copy of the license and are unable to obtain it through
+ * the web, please send a note to the author and a copy will be provided
+ * for you.
+ *
+ * @category   HTML
+ * @package    DForms
+ * @subpackage Media
+ * @author     Greg Thornton <xdissent@gmail.com>
+ * @copyright  2009 Greg Thornton
+ * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
+ * @link       http://xdissent.github.com/dforms/
+ */
 
 /**
  * A media property with special methods for handling media.
  *
- * .. note:: Some of these method names are not camel case. They should be,
- *    but it is *much* easier to keep all the names lowercase for now.
+ * Note: Some of these method names are not camel case. They should be,
+ * but it is *much* easier to keep all the names lowercase for now.
+ *
+ * @category   HTML
+ * @package    DForms
+ * @subpackage Media
+ * @author     Greg Thornton <xdissent@gmail.com>
+ * @copyright  2009 Greg Thornton
+ * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
+ * @link       http://xdissent.github.com/dforms/
  */
 class DForms_Media_Media
 {
+    /**
+     * Available media types ("js" and "css" by default)
+     *
+     * @var array
+     */
     private $_media_types;
+    
+    /**
+     * CSS media associated with a media object.
+     *
+     * @var array
+     */
     private $_css;
+    
+    /**
+     * JS media associated with a media object.
+     *
+     * @var array
+     */
     private $_js;
     
+    /**
+     * Instantiate a media object.
+     *
+     * @param array $media The media array to copy into the media object.
+     *
+     * @return null
+     */
     public function __construct($media=null) {
         if (is_null($media)) {
             $media = array();
@@ -30,7 +85,26 @@ class DForms_Media_Media
     }
     
     /**
-     * @todo Make this throw an exception if invalid type is supplied.
+     * Returns a new media type with a subset of the current media.
+     *
+     * This magic method is useful for accessing one particular media type from
+     * a media object instance:
+     *
+     * <code>
+     * // Create a media object with javascript and stylesheets.
+     * $media = new DForms_Media_Media(array(
+     *     'js' => array('test.js'),
+     *     'css' => array('screen' => array('test.css'))
+     * );
+     *
+     * // Extract a new media object with only javascript elements.
+     * $js_media = $media->js;
+     * </code>
+     *
+     * @param string $name The name of the media type to retrieve.
+     * 
+     * @return object
+     * @todo Refactor media access to use array access rather than properties.
      */
     public function __get($name) {
         if (in_array($name, $this->_media_types)) {
@@ -41,10 +115,20 @@ class DForms_Media_Media
         }
     }
     
+    /**
+     * Returns the media definitions rendered as HTML by default.
+     *
+     * @return string
+     */
     public function __toString() {
         return $this->render();
     }
     
+    /**
+     * Returns all media definitions rendered as HTML.
+     *
+     * @return string
+     */
     public function render() {
         $lines = array();
         foreach ($this->_media_types as $type) {
@@ -56,6 +140,11 @@ class DForms_Media_Media
         return implode("\n", $lines);
     }
     
+    /**
+     * Returns only javascript media definitions rendered as HTML.
+     *
+     * @return string
+     */
     public function render_js() {
         $lines = array();
         foreach ($this->_js as $src) {
@@ -67,6 +156,11 @@ class DForms_Media_Media
         return implode("\n", $lines);
     }
     
+    /**
+     * Returns only CSS media definitions rendered as HTML.
+     *
+     * @return string
+     */
     public function render_css() {
         $lines = array();
         $media = array_keys($this->_css);
@@ -83,12 +177,26 @@ class DForms_Media_Media
         return implode("\n", $lines);
     }
     
+    /**
+     * Adds an array of javascript media to the media object.
+     *
+     * @param array $data The javascript media array to add.
+     *
+     * @return null
+     */
     public function add_js($data=null) {
         if (!is_null($data)) {
             $this->_js = array_merge($this->_js, $data);
         }
     }
     
+    /**
+     * Adds an array of CSS media to the media object.
+     *
+     * @param array $data The CSS media array to add.
+     *
+     * @return null
+     */
     public function add_css($data) {
         if (!is_null($data)) {
             foreach ($data as $medium => $paths) {
@@ -104,6 +212,13 @@ class DForms_Media_Media
         }
     }
     
+    /**
+     * Adds an array of media to the media object.
+     *
+     * @param array $data The media array to add.
+     *
+     * @return null
+     */
     public function add($data) {
         foreach ($this->_media_types as $type) {
             if (array_key_exists($type, $data)) {
@@ -112,6 +227,13 @@ class DForms_Media_Media
         }
     }
     
+    /**
+     * Merges one media object with another and returns the combined media.
+     *
+     * @param array $data The media object to merge with.
+     *
+     * @return object
+     */
     public function mergeMedia($media) {
         $combined = new DForms_Media_Media();
         foreach ($this->_media_types as $type) {
