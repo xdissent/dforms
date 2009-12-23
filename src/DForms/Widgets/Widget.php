@@ -46,6 +46,8 @@ abstract class DForms_Widgets_Widget extends DForms_Media_MediaDefiningClass
     /**
      * The constructor.
      *
+     * @param array $attrs The attributes to use when rendering the widget.
+     *
      * @return null
      */
     public function __construct($attrs=null)
