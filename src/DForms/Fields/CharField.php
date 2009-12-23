@@ -90,6 +90,8 @@ class DForms_Fields_CharField extends DForms_Fields_Field
                 )
             );
         }
+        
+        return $value;
     }
     
     public static function errorMessages() {
