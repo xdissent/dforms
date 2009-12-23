@@ -2,8 +2,6 @@
 /**
  * Character field
  *
- * This file defines the base field class.
- *
  * PHP version 5
  *
  * LICENSE: This source file is subject to version 3.0 of the Creative 
