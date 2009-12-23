@@ -2,8 +2,6 @@
 /**
  * Input widget
  *
- * This file defines a form field widget base class.
- *
  * PHP version 5
  *
  * LICENSE: This source file is subject to version 3.0 of the Creative 
@@ -24,7 +22,7 @@
  */
 
 /**
- * The base input widget
+ * The base input widget.
  *
  * @category   HTML
  * @package    DForms
@@ -36,8 +34,25 @@
  */
 abstract class DForms_Widgets_Input extends DForms_Widgets_Widget
 {
+    /**
+     * The input type to use for the widget.
+     *
+     * This member variable allows different widget subclasses to use the
+     * input widget base class for most types of input.
+     *
+     * @var string
+     */
     protected $input_type;
     
+    /**
+     * Renders the select widget to HTML.
+     *
+     * @param string $name    The name to use for the widget.
+     * @param mixed  $value   The value to render into the widget.
+     * @param array  $attrs   The attributes to use when rendering the widget.
+     *
+     * @return string
+     */
     public function render($name, $value, $attrs=null)
     {
         if (is_null($value)) {

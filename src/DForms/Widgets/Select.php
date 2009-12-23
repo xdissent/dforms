@@ -106,7 +106,6 @@ class DForms_Widgets_Select extends DForms_Widgets_Widget
          */
         $attrs = $this->buildAttrs(
             array(
-                'type' => $this->input_type,
                 'name' => $name
             ),
             $attrs

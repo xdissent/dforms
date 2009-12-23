@@ -2,7 +2,7 @@
 /**
  * Choice field
  *
- * This file defines a drop down choice field.
+ * This file defines a drop down field, {@link DForms_Fields_ChoiceField}.
  *
  * PHP version 5
  *

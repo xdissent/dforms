@@ -2,7 +2,7 @@
 /**
  * Hidden input widget
  *
- * This file defines a form field widget base class.
+ * This file defines a hidden widget.
  *
  * PHP version 5
  *
