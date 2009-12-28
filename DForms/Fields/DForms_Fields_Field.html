@@ -58,9 +58,21 @@
 					<th class="class-table-header">Description</th>
 				</tr>
 								<tr>
+					<td style="padding-right: 2em"><a href="../../DForms/Fields/DForms_Fields_BooleanField.html">DForms_Fields_BooleanField</a></td>
+					<td>
+											The boolean field.
+										</td>
+				</tr>
+								<tr>
 					<td style="padding-right: 2em"><a href="../../DForms/Fields/DForms_Fields_CharField.html">DForms_Fields_CharField</a></td>
 					<td>
 											The character field.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../../DForms/Fields/DForms_Fields_ChoiceField.html">DForms_Fields_ChoiceField</a></td>
+					<td>
+											The choice field.
 										</td>
 				</tr>
 								<tr>
@@ -284,6 +296,13 @@
 	
 	
 		
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../DForms/Fields/DForms_Fields_MultipleChoiceField.html#var$hidden_widget">DForms_Fields_MultipleChoiceField::$hidden_widget</a>
+							</li>
+				</ul>
 		
 
 </div>
@@ -399,6 +418,19 @@
 	
 	
 		
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../../DForms/Fields/DForms_Fields_BooleanField.html#var$widget">DForms_Fields_BooleanField::$widget</a>
+							</li>
+					<li>
+				<a href="../../DForms/Fields/DForms_Fields_ChoiceField.html#var$widget">DForms_Fields_ChoiceField::$widget</a>
+							</li>
+					<li>
+				<a href="../../DForms/Fields/DForms_Fields_MultipleChoiceField.html#var$widget">DForms_Fields_MultipleChoiceField::$widget</a>
+							</li>
+				</ul>
 		
 
 </div>
@@ -447,6 +479,14 @@
 		<ul class="redefinitions">
 					<li>
 				<a href="../../DForms/Fields/DForms_Fields_CharField.html#methoderrorMessages">DForms_Fields_CharField::errorMessages()</a>
+							</li>
+					<li>
+				<a href="../../DForms/Fields/DForms_Fields_ChoiceField.html#methoderrorMessages">DForms_Fields_ChoiceField::errorMessages()</a>
+								: Returns the error messages to use by default for the field.
+							</li>
+					<li>
+				<a href="../../DForms/Fields/DForms_Fields_MultipleChoiceField.html#methoderrorMessages">DForms_Fields_MultipleChoiceField::errorMessages()</a>
+								: Returns the error messages to use by default for the field.
 							</li>
 				</ul>
 	</div>
@@ -503,6 +543,10 @@
 					<li>
 				<a href="../../DForms/Fields/DForms_Fields_CharField.html#method__construct">DForms_Fields_CharField::__construct()</a>
 							</li>
+					<li>
+				<a href="../../DForms/Fields/DForms_Fields_ChoiceField.html#method__construct">DForms_Fields_ChoiceField::__construct()</a>
+								: Instantiates a select field.
+							</li>
 				</ul>
 	</div>
 <a name="methodclean" id="clean"><!-- --></a>
@@ -538,7 +582,18 @@
 		<div class="notes">Redefined in descendants as:</div>
 		<ul class="redefinitions">
 					<li>
+				<a href="../../DForms/Fields/DForms_Fields_BooleanField.html#methodclean">DForms_Fields_BooleanField::clean()</a>
+							</li>
+					<li>
 				<a href="../../DForms/Fields/DForms_Fields_CharField.html#methodclean">DForms_Fields_CharField::clean()</a>
+							</li>
+					<li>
+				<a href="../../DForms/Fields/DForms_Fields_ChoiceField.html#methodclean">DForms_Fields_ChoiceField::clean()</a>
+								: Validates the given value is in the available choices.
+							</li>
+					<li>
+				<a href="../../DForms/Fields/DForms_Fields_MultipleChoiceField.html#methodclean">DForms_Fields_MultipleChoiceField::clean()</a>
+								: Validates the given value is in the available choices.
 							</li>
 				</ul>
 	</div>
@@ -645,7 +700,7 @@
 
 
 	<p class="notes" id="credit">
-		Documentation generated on Tue, 22 Dec 2009 23:50:33 -0600 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Mon, 28 Dec 2009 10:31:54 -0600 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
 </html>
