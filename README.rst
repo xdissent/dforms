@@ -4,6 +4,9 @@ DForms
 
 *We found the missing PHP forms library. It was in Python.*
 
+.. caution:: This package is a work in progress, and does *not* guarantee any
+   useful functionality yet. Your mileage may **seriously** vary.
+
 Motivation
 ----------
 

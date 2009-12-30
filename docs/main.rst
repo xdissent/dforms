@@ -1,12 +1,16 @@
 ===============
 DForms Overview
 ===============
+
 ---------------------------------------------------------
 We found the missing PHP forms library. It was in Python.
 ---------------------------------------------------------
 
 :Author: Greg Thornton
 :Contact: xdissent@gmail.com
+
+.. caution:: This package is a work in progress, and does *not* guarantee any
+   useful functionality yet. Your mileage may **seriously** vary.
 
 .. contents::
 
