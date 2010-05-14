@@ -3,7 +3,7 @@
 /**
  * Import DForm.
  */
-require_once dirname(__FILE__) . '/src/DForms/import.php';
+require_once dirname(__FILE__) . '/../src/DForms/import.php';
 
 /**
  * Define a simple form.
@@ -54,7 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         /**
          * Do something with the form data.
          */
-        do_something($form->cleaned_data);
+        // do_something($form->cleaned_data);
+        echo 'Valid';
     }
     
 } else {

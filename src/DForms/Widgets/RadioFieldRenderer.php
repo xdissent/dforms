@@ -1,6 +1,8 @@
 <?php
 
-class DForms_Widgets_RadioFieldRenderer implements ArrayAccess, Iterator, Countable
+namespace DForms\Widgets;
+
+class RadioFieldRenderer implements \ArrayAccess, \Iterator, \Countable
 {    
     public function __construct($name, $value, $attrs, $choices)
     {
@@ -17,7 +19,7 @@ class DForms_Widgets_RadioFieldRenderer implements ArrayAccess, Iterator, Counta
     
     public function offsetSet($offset, $value)
     {
-        throw new Exception('Cannot add choices to radio field renderer.');
+        throw new \Exception('Cannot add choices to radio field renderer.');
     }
     
     public function offsetExists($offset)
@@ -27,7 +29,7 @@ class DForms_Widgets_RadioFieldRenderer implements ArrayAccess, Iterator, Counta
     
     public function offsetUnset($offset)
     {
-        throw new Exception('Cannot remove choices from radio field renderer.');
+        throw new \Exception('Cannot remove choices from radio field renderer.');
     }
     
     public function offsetGet($offset)
@@ -36,7 +38,7 @@ class DForms_Widgets_RadioFieldRenderer implements ArrayAccess, Iterator, Counta
             return null;
         }
         
-        return new DForms_Widgets_RadioInput(
+        return new RadioInput(
             $this->name,
             $this->value,
             $this->attrs,

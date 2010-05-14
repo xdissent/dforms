@@ -20,6 +20,10 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Fields;
+
+use DForms\Errors\ValidationError;
 
 /**
  * The boolean field.
@@ -32,9 +36,9 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Fields_BooleanField extends DForms_Fields_Field
+class BooleanField extends Field
 {
-    public $widget = 'DForms_Widgets_CheckboxInput';
+    public $widget = 'DForms\Widgets\CheckboxInput';
     
     public function clean($value)
     {
@@ -55,9 +59,7 @@ class DForms_Fields_BooleanField extends DForms_Fields_Field
         if (($this->isEmptyValue($value) || $value === false) 
             && $this->required
         ) {
-            throw new DForms_Errors_ValidationError(
-                    $this->error_messages['required']
-            );
+            throw new ValidationError($this->error_messages['required']);
         }
         
         return $value;

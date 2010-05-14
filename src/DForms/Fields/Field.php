@@ -22,6 +22,10 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Fields;
+
+use DForms\Errors\ValidationError;
 
 /**
  * The DForms field base class.
@@ -34,7 +38,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-abstract class DForms_Fields_Field
+abstract class Field
 {
     /**
      * The field label.
@@ -116,7 +120,7 @@ abstract class DForms_Fields_Field
      *
      * @var mixed
      */
-    public $widget = 'DForms_Widgets_TextInput';
+    public $widget = 'DForms\Widgets\TextInput';
     
     /**
      * The field's hidden widget class name.
@@ -126,7 +130,7 @@ abstract class DForms_Fields_Field
      *
      * @var string
      */
-    public $hidden_widget = 'DForms_Widgets_HiddenInput';
+    public $hidden_widget = 'DForms\Widgets\HiddenInput';
     
     /**
      * The field error messages.
@@ -171,7 +175,7 @@ abstract class DForms_Fields_Field
      *
      * var integer
      */
-    protected static $creation_counter = 0;
+    private static $_creation_counter = 0;
     
     /**
      * We should really be declaring a non-static member to hold the per-
@@ -179,7 +183,7 @@ abstract class DForms_Fields_Field
      * the same name for static and instance member variables. It works; just
      * declare the instance member variable at runtime.
      */
-    //protected $creation_counter;
+    protected $creation_counter;
 
     /**
      * Instantiates a field.
@@ -268,12 +272,12 @@ abstract class DForms_Fields_Field
         /**
          * Save the current creation counter for this instance.
          */
-        $this->creation_counter = self::$creation_counter;
+        $this->creation_counter = self::$_creation_counter;
         
         /**
          * Update the creation counter to indicate a new field instance.
          */
-        self::$creation_counter += 1;
+        self::$_creation_counter += 1;
         
         /**
          * Get the inherited error messages for this field.
@@ -325,7 +329,7 @@ abstract class DForms_Fields_Field
      *
      * @param mixed $value The value to clean.
      *
-     * @throws DForms_Errors_ValidationError
+     * @throws ValidationError
      * @return mixed
      */
     public function clean($value)
@@ -337,7 +341,7 @@ abstract class DForms_Fields_Field
             /**
              * Throw a validation error indicating the field value is missing.
              */
-            throw new DForms_Errors_ValidationError(
+            throw new ValidationError(
                 $this->error_messages['required']
             );
         }

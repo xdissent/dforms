@@ -21,6 +21,10 @@
  * @link       http://xdissent.github.com/dforms/
  */
 
+namespace DForms\Widgets;
+
+use DForms\Utils\Attributes;
+
 /**
  * The base input widget.
  *
@@ -32,7 +36,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-abstract class DForms_Widgets_Input extends DForms_Widgets_Widget
+abstract class Input extends Widget
 {
     /**
      * The input type to use for the widget.
@@ -71,6 +75,6 @@ abstract class DForms_Widgets_Input extends DForms_Widgets_Widget
             $attrs['value'] = $value;
         }
         
-        return sprintf('<input%s />', DForms_Utils_Attributes::flatten($attrs));
+        return sprintf('<input%s />', Attributes::flatten($attrs));
     }
 }

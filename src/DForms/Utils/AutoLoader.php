@@ -24,6 +24,8 @@
  * @link       http://xdissent.github.com/dforms/
  */
 
+namespace DForms\Utils;
+
 /**
  * The DForms auto loader.
  *
@@ -38,7 +40,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Utils_AutoLoader
+class AutoLoader
 {
     /**
      * The extension to use when locating class names.

@@ -24,6 +24,8 @@
  * @link       http://xdissent.github.com/dforms/
  */
 
+namespace DForms\Media;
+
 /**
  * A base class that provides media statically, or optionally per instance.
  *
@@ -42,7 +44,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-abstract class DForms_Media_MediaDefiningClass
+abstract class MediaDefiningClass
 {
     private $_media;
     
@@ -93,7 +95,7 @@ abstract class DForms_Media_MediaDefiningClass
         /**
          * Create a media object from the media array.
          */
-        $media = new DForms_Media_Media($media_array);
+        $media = new Media($media_array);
         
         /**
          * Determine the parent class of the form.

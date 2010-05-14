@@ -22,6 +22,10 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Widgets;
+
+use DForms\Utils\Attributes;
 
 /**
  * The base select widget
@@ -38,7 +42,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Widgets_Select extends DForms_Widgets_Widget
+class Select extends Widget
 {
     /**
      * An associative array of values and labels for choices.
@@ -121,7 +125,7 @@ class DForms_Widgets_Select extends DForms_Widgets_Widget
          */
         $output[] = sprintf(
             '<select%s>',
-            DForms_Utils_Attributes::flatten($attrs)
+            Attributes::flatten($attrs)
         );
         
         /**

@@ -20,6 +20,10 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Widgets;
+
+use DForms\Utils\Attributes;
 
 /**
  * The checkbox input widget.
@@ -32,7 +36,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Widgets_CheckboxInput extends DForms_Widgets_Widget
+class CheckboxInput extends Widget
 {
     /**
      * A callable that will determine if the widget is checked.
@@ -112,7 +116,7 @@ class DForms_Widgets_CheckboxInput extends DForms_Widgets_Widget
          */
         return sprintf(
             '<input%s />',
-            DForms_Utils_Attributes::flatten($attrs)
+            Attributes::flatten($attrs)
         );
     }
     

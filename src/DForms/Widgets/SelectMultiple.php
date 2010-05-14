@@ -22,6 +22,10 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Widgets;
+
+use DForms\Utils\Attributes;
 
 /**
  * A multiple choice select widget.
@@ -34,7 +38,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Widgets_SelectMultiple extends DForms_Widgets_Select
+class SelectMultiple extends Select
 {
     /**
      * Renders the select widget to HTML.
@@ -80,7 +84,7 @@ class DForms_Widgets_SelectMultiple extends DForms_Widgets_Select
          */
         $output[] = sprintf(
             '<select multiple="multiple"%s>',
-            DForms_Utils_Attributes::flatten($attrs)
+            Attributes::flatten($attrs)
         );
         
         /**

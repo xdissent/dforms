@@ -24,6 +24,8 @@
  * @link       http://xdissent.github.com/dforms/
  */
 
+namespace DForms\Errors;
+
 /**
  * A validation error.
  *
@@ -38,6 +40,6 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Errors_ValidationError extends Exception
+class ValidationError extends \Exception
 {
 }

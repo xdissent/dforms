@@ -22,6 +22,10 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Fields;
+
+use DForms\Errors\ValidationError;
 
 /**
  * The file field
@@ -34,6 +38,6 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Fields_FileField extends DForms_Fields_Field
+class FileField extends Field
 {
 }

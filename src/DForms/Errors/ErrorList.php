@@ -22,6 +22,8 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Errors;
 
 /**
  * A list of errors with special output rendering methods.
@@ -30,10 +32,12 @@
  * array syntax:
  *
  * <code>
+ * use DForms\Errors\ErrorList;
+ *
  * $messages = array('A test error occurred.');
  *
  * // Create an error list from existing array.
- * $errors = new DForms_Errors_ErrorList($messages);
+ * $errors = new ErrorList($messages);
  *
  * // Loop over each error in the list.
  * foreach ($errors as $msg) {
@@ -60,7 +64,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Errors_ErrorList extends ArrayObject
+class ErrorList extends \ArrayObject
 {
     /**
      * Returns the error list rendered as HTML.

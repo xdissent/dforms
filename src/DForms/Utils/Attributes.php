@@ -23,6 +23,8 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Utils;
 
 /**
  * An attribute manipulation utility.
@@ -35,7 +37,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Utils_Attributes
+class Attributes
 {
     /**
      * Returns a flattened string of attributes suitable for use in HTML tags.

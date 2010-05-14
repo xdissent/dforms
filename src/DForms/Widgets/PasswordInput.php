@@ -22,6 +22,8 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Widgets;
 
 /**
  * The password widget
@@ -34,7 +36,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Widgets_PasswordInput extends DForms_Widgets_Input
+class PasswordInput extends Input
 {
     protected $input_type = 'password';
 }

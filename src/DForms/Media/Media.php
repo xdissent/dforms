@@ -22,6 +22,8 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Media;
 
 /**
  * A media property with special methods for handling media.
@@ -37,7 +39,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Media_Media
+class Media
 {
     /**
      * Available media types ("js" and "css" by default)
@@ -92,7 +94,7 @@ class DForms_Media_Media
      *
      * <code>
      * // Create a media object with javascript and stylesheets.
-     * $media = new DForms_Media_Media(array(
+     * $media = new Media(array(
      *     'js' => array('test.js'),
      *     'css' => array('screen' => array('test.css'))
      * );
@@ -111,7 +113,7 @@ class DForms_Media_Media
             $media = array();
             $media_name = '_' . $name;
             $media[$name] = $this->$media_name;
-            return new DForms_Media_Media($media);
+            return new Media($media);
         }
     }
     
@@ -235,7 +237,7 @@ class DForms_Media_Media
      * @return object
      */
     public function mergeMedia($media) {
-        $combined = new DForms_Media_Media();
+        $combined = new Media();
         foreach ($this->_media_types as $type) {
             $type_name = '_' . $type;
             call_user_func(

@@ -22,6 +22,11 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Widgets;
+
+use DForms\Utils\Attributes;
+use DForms\Media\MediaDefiningClass;
 
 /**
  * The DForms widget base class.
@@ -34,7 +39,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-abstract class DForms_Widgets_Widget extends DForms_Media_MediaDefiningClass
+abstract class Widget extends MediaDefiningClass
 {
 
     public $is_hidden = false;

@@ -22,6 +22,14 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms;
+
+use DForms\Media\MediaDefiningClass;
+use DForms\Errors\ErrorDict;
+use DForms\Errors\ValidationError;
+use DForms\Fields\BoundField;
+use DForms\Fields\FileField;
 
 /**
  * The DForms form base class.
@@ -31,15 +39,22 @@
  * returns an array of fields to be associated with the form:
  * 
  * <code>
- * class ContactForm extends DForms_Forms_Form
+ *
+ * use DForms\Form;
+ * use DForms\Fields\CharField;
+ * use DForms\Fields\TextField;
+ * use DForms\Fields\EmailField;
+ * use DForms\Fields\BooleanField;
+ * 
+ * class ContactForm extends Form
  * {
  *     public static function fields()
  *     {
  *         return array(
- *             'subject' => new DForms_Fields_CharField(null, null, 100),
- *             'message' => new DForms_Fields_TextField(),
- *             'sender' => new DForms_Fields_EmailField(),
- *             'cc_myself' => new DForms_Fields_BooleanField(
+ *             'subject' => new CharField(null, null, 100),
+ *             'message' => new TextField(),
+ *             'sender' => new EmailField(),
+ *             'cc_myself' => new BooleanField(
  *                 null, 
  *                 null, 
  *                 null, 
@@ -60,8 +75,8 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-abstract class DForms_Forms_Form extends DForms_Media_MediaDefiningClass
-implements ArrayAccess, Iterator, Countable
+abstract class Form extends MediaDefiningClass
+implements \ArrayAccess, \Iterator, \Countable
 {
     /**
      * A key to use for errors in the error list that do not belong ot a field.
@@ -152,7 +167,7 @@ implements ArrayAccess, Iterator, Countable
      *
      * @var string
      */
-    public $error_class = 'DForms_Errors_ErrorList';
+    public $error_class = 'DForms\Errors\ErrorList';
     
     /**
      * A flag to indicate whether empty fields are allowed on the form.
@@ -387,11 +402,7 @@ implements ArrayAccess, Iterator, Countable
             /**
              * Return a bound field instance for the field.
              */
-            return new DForms_Fields_BoundField(
-                $this, 
-                $this->fields[$offset],
-                $offset
-            );
+            return new BoundField($this, $this->fields[$offset], $offset);
         }
         
         /**
@@ -525,15 +536,17 @@ implements ArrayAccess, Iterator, Countable
      * 
      *     public static function fields() {
      *         return array(
-     *             'name' => new DForms_Fields_CharField(),
-     *             'email' => new DForms_Fields_EmailField()
+     *             'name' => CharField(),
+     *             'email' => EmailField()
      *         );
      *     }
      *
      * .. note:: This static method must remain public until PHP5.3 since it is
      *    accessed by ``call_user_func()``.
      */
-    abstract public static function fields();
+    public static function fields()
+    {
+    }
     
     /**
      * Combines all base fields including inherited fields, in reverse order.
@@ -641,7 +654,7 @@ implements ArrayAccess, Iterator, Countable
         $html_class_attr = '';
         
         foreach ($this->fields as $name => &$field) {
-            $bf = new DForms_Fields_BoundField($this, $field, $name);
+            $bf = new BoundField($this, $field, $name);
             
             $bf_errors = new $this->error_class;
             
@@ -795,7 +808,7 @@ implements ArrayAccess, Iterator, Countable
         /**
          * Set up our empty error dict.
          */
-        $this->_errors = new DForms_Errors_ErrorDict();
+        $this->_errors = new ErrorDict();
         
         /**
          * Only clean bound forms.
@@ -836,7 +849,7 @@ implements ArrayAccess, Iterator, Countable
                 /**
                  * Pass initial data to file fields only
                  */
-                if ($field instanceof DForms_Fields_FileField) {
+                if ($field instanceof FileField) {
                     /**
                      * Initial data on the form takes precedence over the field.
                      */
@@ -878,7 +891,7 @@ implements ArrayAccess, Iterator, Countable
                      */
                     $this->cleaned_data[$name] = $value;
                 }
-            } catch (DForms_Errors_ValidationError $e) {
+            } catch (ValidationError $e) {
                 /**
                  * Create an error object to store the field validation error.
                  */
@@ -907,7 +920,7 @@ implements ArrayAccess, Iterator, Countable
              * Store the modified cleaned data.
              */
             $this->cleaned_data = $this->clean();
-        } catch (DForms_Errors_ValidationError $e) {
+        } catch (ValidationError $e) {
             /**
              * Create an error object to store the global validation error.
              */
@@ -934,7 +947,7 @@ implements ArrayAccess, Iterator, Countable
      * validation and cleaning. Throw a validation error if errors are found.
      * All errors thrown in this method will be added to the non-field errors.
      *
-     * @throws DForms_Errors_ValidationError
+     * @throws ValidationError
      * @return array
      */
     protected function clean()

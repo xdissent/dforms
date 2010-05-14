@@ -23,6 +23,8 @@
  * @link       http://xdissent.github.com/dforms/
  */
 
+namespace DForms\Widgets;
+
 /**
  * The hidden input widget
  *
@@ -34,7 +36,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Widgets_HiddenInput extends DForms_Widgets_Input
+class HiddenInput extends Input
 {
     protected $input_type = 'hidden';
 }

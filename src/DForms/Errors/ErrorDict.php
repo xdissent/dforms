@@ -23,6 +23,8 @@
  * @link       http://xdissent.github.com/dforms/
  */
 
+namespace DForms\Errors;
+
 /**
  * A dictionary of errors with special output rendering methods.
  *
@@ -30,10 +32,12 @@
  * associative array syntax:
  *
  * <code>
+ * use DForms\Errors\ErrorDict;
+ * 
  * $messages = array('test' => 'A test error occurred.');
  *
  * // Create an error dictionary from existing array.
- * $errors = new DForms_Errors_ErrorDict($messages);
+ * $errors = new ErrorDict($messages);
  *
  * // Loop over each error in the dictionary.
  * foreach ($errors as $name => $msg) {
@@ -60,7 +64,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Errors_ErrorDict extends ArrayObject
+class ErrorDict extends \ArrayObject
 {
     /**
      * Returns an error dictionary rendered as HTML.

@@ -20,6 +20,12 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Fields;
+
+use DForms\Errors\ValidationError;
+use DForms\Widgets\TextInput;
+use DForms\Widgets\PasswordInput;
 
 /**
  * The character field.
@@ -32,7 +38,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Fields_CharField extends DForms_Fields_Field
+class CharField extends Field
 {
     public function __construct($label=null, $help_text=null, 
         $max_length=null, $min_length=null, $initial=null,
@@ -67,10 +73,10 @@ class DForms_Fields_CharField extends DForms_Fields_Field
             $value = '';
         }
         
-        $value_length = strlen($value_length);
+        $value_length = strlen($value);
         
         if (!is_null($this->max_length) && $value_length > $this->max_length) {
-            throw new DForms_Errors_ValidationError(
+            throw new ValidationError(
                 sprintf(
                     $this->error_messages['max_length'],
                     $this->max_length, 
@@ -80,7 +86,7 @@ class DForms_Fields_CharField extends DForms_Fields_Field
         }
         
         if (!is_null($this->min_length) && $value_length < $this->min_length) {
-            throw new DForms_Errors_ValidationError(
+            throw new ValidationError(
                 sprintf(
                     $this->error_messages['min_length'],
                     $this->min_length, 
@@ -102,8 +108,8 @@ class DForms_Fields_CharField extends DForms_Fields_Field
     public function widgetAttrs($widget) {
 
         if (!is_null($this->max_length)
-            && ($widget instanceof DForms_Widgets_TextInput
-                || $widget instanceof DForms_Widgets_PasswordInput)
+            && ($widget instanceof TextInput
+                || $widget instanceof PasswordInput)
         ) {
             return array('maxlength' => (string)$this->max_length);
         }

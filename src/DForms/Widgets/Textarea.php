@@ -22,6 +22,10 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Widgets;
+
+use DForms\Utils\Attributes;
 
 /**
  * The textarea widget
@@ -34,7 +38,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Widgets_Textarea extends DForms_Widgets_Widget
+class Textarea extends Widget
 {
     public function __construct($attrs=null)
     {
@@ -60,7 +64,7 @@ class DForms_Widgets_Textarea extends DForms_Widgets_Widget
         
         return sprintf(
             '<textarea%s>%s</textarea>',
-            DForms_Utils_Attributes::flatten($attrs),
+            Attributes::flatten($attrs),
             htmlentities($value)
         );
     }

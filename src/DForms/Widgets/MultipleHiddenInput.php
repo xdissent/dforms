@@ -20,6 +20,10 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Widgets;
+
+use DForms\Utils\Attributes;
 
 /**
  * The hidden input widget
@@ -32,7 +36,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Widgets_MultipleHiddenInput extends DForms_Widgets_HiddenInput
+class MultipleHiddenInput extends HiddenInput
 {
     /**
      * Creates a select widget.
@@ -107,7 +111,7 @@ class DForms_Widgets_MultipleHiddenInput extends DForms_Widgets_HiddenInput
             $vattrs = array_merge($vattrs, $attrs);
             $output[] = sprintf(
                 '<input%s />',
-                DForms_Utils_Attributes::flatten($vattrs)
+                Attributes::flatten($vattrs)
             );
         }
         

@@ -1,6 +1,10 @@
 <?php
 
-class DForms_Widgets_RadioInput
+namespace DForms\Widgets;
+
+use DForms\Utils\Attributes;
+
+class RadioInput
 {
     protected $name;
     protected $value;
@@ -72,7 +76,7 @@ class DForms_Widgets_RadioInput
         
         return sprintf(
             '<input%s />',
-            DForms_Utils_Attributes::flatten($attrs)
+            Attributes::flatten($attrs)
         );
     }
 }

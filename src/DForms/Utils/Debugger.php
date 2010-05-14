@@ -22,7 +22,9 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
- 
+
+namespace DForms\Utils;
+
  /**
  * The DForms debugger.
  *
@@ -34,7 +36,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Utils_Debugger
+class Debugger
 {
     /**
      * A flag to indicate if this auto loader has been registered.

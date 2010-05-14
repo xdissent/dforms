@@ -22,6 +22,13 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Fields;
+
+use DForms\Errors\ValidationError;
+use DForms\Utils\Attributes;
+use DForms\Widgets\TextInput;
+use DForms\Widgets\Textarea;
 
 /**
  * The field belonging to a form, plus data.
@@ -34,7 +41,7 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Fields_BoundField
+class BoundField
 {
     /**
      * The form to which the field belongs.
@@ -172,9 +179,7 @@ class DForms_Fields_BoundField
                 $data = call_user_func($data);
             }
         } else {
-            if ($this->field instanceof DForms_Fields_FileField 
-                && is_null($this->data)
-            ) {
+            if ($this->field instanceof FileField && is_null($this->data)) {
                 if (array_key_exists($this->name, $this->form->initial)) {
                     $data = $this->form->initial[$this->name];
                 } else {
@@ -197,7 +202,7 @@ class DForms_Fields_BoundField
     protected function asText($attrs=null, $only_initial=false)
     {
         return $this->asWidget(
-            new DForm_Widgets_TextInput,
+            new TextInput,
             $attrs,
             $only_initial
         );
@@ -206,7 +211,7 @@ class DForms_Fields_BoundField
     protected function asTextarea($attrs=null, $only_initial=false)
     {
         return $this->asWidget(
-            new DForm_Widgets_Textarea,
+            new Textarea,
             $attrs,
             $only_initial
         );
@@ -240,7 +245,7 @@ class DForms_Fields_BoundField
          */
         if ($id) {
             if (is_null($attrs)) {
-                $attrs = DForms_Utils_Attributes::flatten($attrs);
+                $attrs = Attributes::flatten($attrs);
             }
             
             $contents = sprintf(

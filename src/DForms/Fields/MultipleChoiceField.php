@@ -24,6 +24,10 @@
  * @link       http://xdissent.github.com/dforms/
  */
 
+namespace DForms\Fields;
+
+use DForms\Errors\ValidationError;
+
 /**
  * The multiple choice field.
  *
@@ -35,10 +39,10 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Fields_MultipleChoiceField extends DForms_Fields_ChoiceField
+class MultipleChoiceField extends ChoiceField
 {
-    public $widget = 'DForms_Widgets_SelectMultiple';
-    public $hidden_widget = 'DForms_Widgets_MultipleHiddenInput';
+    public $widget = 'DForms\Widgets\SelectMultiple';
+    public $hidden_widget = 'DForms\Widgets\MultipleHiddenInput';
 
     /**
      * Returns the error messages to use by default for the field.
@@ -57,7 +61,7 @@ class DForms_Fields_MultipleChoiceField extends DForms_Fields_ChoiceField
      *
      * @param mixed $value The value to clean.
      *
-     * @throws DForms_Errors_ValidationError
+     * @throws ValidationError
      * @return mixed
      */
     public function clean($value)
@@ -69,7 +73,7 @@ class DForms_Fields_MultipleChoiceField extends DForms_Fields_ChoiceField
             /**
              * Throw a validation error indicating the field value is missing.
              */
-            throw new DForms_Errors_ValidationError(
+            throw new ValidationError(
                 $this->error_messages['required']
             );
         } elseif (!$this->required && $this->isEmptyValue($value)) {
@@ -80,7 +84,7 @@ class DForms_Fields_MultipleChoiceField extends DForms_Fields_ChoiceField
          * Make sure we don't have an empty value.
          */
         if (!is_array($value)) {
-            throw new DForms_Errors_ValidationError(
+            throw new ValidationError(
                 $this->error_messages['invalid_list']
             );
         }
@@ -90,7 +94,7 @@ class DForms_Fields_MultipleChoiceField extends DForms_Fields_ChoiceField
          */
         foreach ($value as $val) {
             if (!$this->validValue($val)) {
-                throw new DForms_Errors_ValidationError(
+                throw new ValidationError(
                     sprintf($this->error_messages['invalid_choice'], $val)
                 );
             }

@@ -2,7 +2,7 @@
 /**
  * Choice field
  *
- * This file defines a drop down field, {@link DForms_Fields_ChoiceField}.
+ * This file defines a drop down field, {@link ChoiceField}.
  *
  * PHP version 5
  *
@@ -22,6 +22,10 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Fields;
+
+use DForms\Errors\ValidationError;
 
 /**
  * The choice field.
@@ -34,9 +38,9 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Fields_ChoiceField extends DForms_Fields_Field
+class ChoiceField extends Field
 {
-    public $widget = 'DForms_Widgets_Select';
+    public $widget = 'DForms\Widgets\Select';
     
     private $_choices;
     
@@ -133,7 +137,7 @@ class DForms_Fields_ChoiceField extends DForms_Fields_Field
      *
      * @param mixed $value The value to clean.
      *
-     * @throws DForms_Errors_ValidationError
+     * @throws ValidationError
      * @return mixed
      */
     public function clean($value)
@@ -152,7 +156,7 @@ class DForms_Fields_ChoiceField extends DForms_Fields_Field
         }
         
         if (!$this->validValue($value)) {
-            throw new DForms_Errors_ValidationError(
+            throw new ValidationError(
                 sprintf($this->error_messages['invalid_choice'], $value)
             );
         }

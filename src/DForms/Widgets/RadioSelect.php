@@ -22,6 +22,10 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
+ 
+namespace DForms\Widgets;
+
+use DForms\Utils\Attributes;
 
 /**
  * The radio select widget
@@ -34,9 +38,9 @@
  * @license    http://creativecommons.org/licenses/by-sa/3.0/us/
  * @link       http://xdissent.github.com/dforms/
  */
-class DForms_Widgets_RadioSelect extends DForms_Widgets_Select
+class RadioSelect extends Select
 {
-    protected $renderer = 'DForms_Widgets_RadioFieldRenderer';
+    protected $renderer = 'DForms\Widgets\RadioFieldRenderer';
     
     public function __construct($attrs=null, $choices=null, $renderer=null)
     {
